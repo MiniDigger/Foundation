@@ -42,7 +42,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<doCheck>true</doCheck>
+					<doCheck>false</doCheck>
 					<doUpdate>true</doUpdate>
 					<shortRevisionLength>5</shortRevisionLength>
 				</configuration>
@@ -79,6 +79,20 @@
 					</executable>
 					<compilerVersion>1.8</compilerVersion>
 				</configuration>
+			</plugin>
+			<!-- JRebel -->
+			<plugin>
+				<groupId>org.zeroturnaround</groupId>
+				<artifactId>jrebel-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-rebel-xml</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

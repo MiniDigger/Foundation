@@ -1,0 +1,92 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>me.MiniDigger</groupId>
+	<artifactId>Foundation</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Foundation</name>
+	<description>A fully modular spigot plugin framework</description>
+
+	<scm>
+		<connection>scm:git:https://github.com/MiniDigger/Foundation.git</connection>
+		<developerConnection>scm:git:https://github.com/MiniDigger/Foundation.git</developerConnection>
+		<tag>HEAD</tag>
+		<url>https://github.com/MiniDigger/Foundation</url>
+	</scm>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>plugin.yml</include>
+					<include>config.yml</include>
+				</includes>
+			</resource>
+		</resources>
+
+		<plugins>
+			<!-- Buildnumber for plugin.yml -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<doCheck>true</doCheck>
+					<doUpdate>true</doUpdate>
+					<shortRevisionLength>5</shortRevisionLength>
+				</configuration>
+			</plugin>
+			<!-- Copy the final jar -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<copy file="" todir="./Servers/plugin" />
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Compiler: Java8 all the way -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<verbose>true</verbose>
+					<fork>true</fork>
+					<executable>Z:\Programme\JDK 8u51\bin\javac
+					</executable>
+					<compilerVersion>1.8</compilerVersion>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot</artifactId>
+			<version>1.8.8-R0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+</project>

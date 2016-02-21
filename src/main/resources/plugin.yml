@@ -1,0 +1,4 @@
+name: Foundation
+version: ${project.version}-b${buildNumber}
+author: MiniDigger
+main: me.MiniDigger.Foundation.FoundationMain

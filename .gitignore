@@ -1,1 +1,5 @@
 /target/
+#eclipse stuff
+.classpath
+.project
+/.settings/

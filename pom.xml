@@ -15,7 +15,7 @@
 	</scm>
 
 	<build>
-		<finalName>Foundation.jar</finalName>
+		<finalName>Foundation</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>

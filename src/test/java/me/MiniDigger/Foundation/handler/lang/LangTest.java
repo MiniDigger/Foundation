@@ -31,6 +31,16 @@ public class LangTest {
 	}
 
 	@Test
+	public void testConsoleWithLang() {
+		Lang.console(LangKey.TEST.TEST_VARS, new LangType("test_TEST"), "1", "2", "3", "4", "5");
+	}
+
+	@Test
+	public void testCorruptedLang() {
+		assertEquals("ich=ich=ucg", Lang.translate(LangKey.TEST.TEST, new LangType("currupted"), ""));
+	}
+
+	@Test
 	public void testLangTypeEqualWithDefaultLang() {
 		assertTrue(LangType.en_US.equals(new LangType("en_US")));
 	}
@@ -38,6 +48,12 @@ public class LangTest {
 	@Test
 	public void testLangTypeEqualWithRandomLang() {
 		assertTrue(new LangType("de_DE").equals(new LangType("de_DE")));
+	}
+
+	@Test
+	public void testMsg() {
+		Lang.msg(FoundationMain.getTestCommandSender(), LangKey.TEST.TEST_VARS, new LangType("test_TEST"), "1", "2",
+				"3", "4", "5");
 	}
 
 	@Test
@@ -70,21 +86,5 @@ public class LangTest {
 	public void testTranslateWithTooMuchVars() {
 		assertEquals("Just 1 a 2 bunch 3 of 4 vars 5",
 				Lang.translate(LangKey.TEST.TEST_VARS, "1", "2", "3", "4", "5", "6"));
-	}
-
-	@Test
-	public void testConsoleWithLang() {
-		Lang.console(LangKey.TEST.TEST_VARS, new LangType("test_TEST"), "1", "2", "3", "4", "5");
-	}
-
-	@Test
-	public void testMsg() {
-		Lang.msg(FoundationMain.getTestCommandSender(), LangKey.TEST.TEST_VARS, new LangType("test_TEST"), "1", "2",
-				"3", "4", "5");
-	}
-
-	@Test
-	public void testCorruptedLang() {
-		assertEquals("ich=ich=ucg", Lang.translate(LangKey.TEST.TEST, new LangType("currupted"), ""));
 	}
 }

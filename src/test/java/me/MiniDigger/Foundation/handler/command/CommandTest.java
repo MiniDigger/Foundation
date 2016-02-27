@@ -5,5 +5,5 @@ import org.junit.runners.MethodSorters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CommandTest {
-
+	// TODO Figure out a way to do method tests for command stuff
 }

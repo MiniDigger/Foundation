@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=spigot-1.8.8.jar -DgroupId=org.spigotmc -DartifactId=spigot -Dversion=1.8-SNAPSHOT -Dpackaging=jar  -DlocalRepositoryPath=Z:\Dev\new_bukkit\Foundation\repo\

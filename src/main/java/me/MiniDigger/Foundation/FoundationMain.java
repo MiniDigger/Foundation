@@ -4,12 +4,16 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import me.MiniDigger.Foundation.handler.FoundationHandler;
+import me.MiniDigger.Foundation.handler.command.CommandHandler;
 import me.MiniDigger.Foundation.handler.lang.Lang;
+import me.MiniDigger.Foundation.handler.lang.LangHandler;
 import me.MiniDigger.Foundation.handler.lang.LangKey;
 
 public class FoundationMain extends JavaPlugin {
 	private static FoundationMain INSTANCE;
 	private static boolean testMode;
+	private static FoundationHandler[] handler = { LangHandler.getInstance(), CommandHandler.getInstance() };
 
 	@Override
 	public void onLoad() {
@@ -19,6 +23,27 @@ public class FoundationMain extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		Lang.console(LangKey.Foundation.ENABLE, getDescription().getVersion());
+		initHandler();
+	}
+
+	@Override
+	public void onDisable() {
+		disableHandler();
+	}
+
+	private void initHandler() {
+		for (FoundationHandler h : handler) {
+			h.onLoad();
+		}
+		for (FoundationHandler h : handler) {
+			h.onEnable();
+		}
+	}
+
+	private void disableHandler() {
+		for (FoundationHandler h : handler) {
+			h.onDisable();
+		}
 	}
 
 	@Override
@@ -37,8 +62,8 @@ public class FoundationMain extends JavaPlugin {
 	public static void setTestMode(boolean testMode) {
 		FoundationMain.testMode = testMode;
 	}
-	
-	public static CommandSender getTestCommandSender(){
+
+	public static CommandSender getTestCommandSender() {
 		return new TestCommandSender();
 	}
 }

@@ -77,6 +77,8 @@ public class LangKey {
 				"%0% is not handled! Oh noes!");
 		public static final LangKey ONLY_INGAME = new LangKey(NAME, "only_ingame",
 				"This command is only performable in game");
+		public static final LangKey COMMAND_UNREGISTER = new LangKey(NAME, "completer_unregister",
+				"Unable to unregister command %0%. Unexpected method arguments");;
 
 		public static List<LangKey> values() {
 			List<LangKey> result = new ArrayList<>();
@@ -89,6 +91,7 @@ public class LangKey {
 			result.add(COMMAND_UNEXPECTED_METHOD_ARGS);
 			result.add(COMMAND_NOT_HANDLED);
 			result.add(ONLY_INGAME);
+			result.add(COMMAND_UNREGISTER);
 
 			return result;
 		}

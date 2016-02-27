@@ -16,6 +16,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.entity.Player;
 import org.bukkit.help.GenericCommandHelpTopic;
 import org.bukkit.help.HelpTopic;
@@ -172,7 +173,7 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 		commandMap.put(label.toLowerCase(), new AbstractMap.SimpleEntry<Method, Object>(m, obj));
 		commandMap.put(this.plugin.getName() + ':' + label.toLowerCase(),
 				new AbstractMap.SimpleEntry<Method, Object>(m, obj));
-		String cmdLabel = label.replace(".", ",").split(",")[0].toLowerCase();
+		String cmdLabel = label.split("\\.")[0].toLowerCase();
 		if (map.getCommand(cmdLabel) == null) {
 			org.bukkit.command.Command cmd = new BukkitCommand(cmdLabel, this, plugin);
 			map.register(plugin.getName(), cmd);
@@ -186,7 +187,7 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 	}
 
 	public void registerCompleter(String label, Method m, Object obj) {
-		String cmdLabel = label.replace(".", ",").split(",")[0].toLowerCase();
+		String cmdLabel = label.split("\\.")[0].toLowerCase();
 		if (map.getCommand(cmdLabel) == null) {
 			org.bukkit.command.Command command = new BukkitCommand(cmdLabel, this, plugin);
 			map.register(plugin.getName(), command);
@@ -220,6 +221,46 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 
 	private void defaultCommand(CommandArgs args) {
 		Lang.msg(args.getSender(), LangKey.Command.COMMAND_NOT_HANDLED, args.getLabel());
+	}
+
+	public void unregister(final String command) {
+		if (plugin.getServer().getPluginManager() instanceof SimplePluginManager) {
+			final SimplePluginManager manager = (SimplePluginManager) plugin.getServer().getPluginManager();
+			try {
+				final Field field = SimplePluginManager.class.getDeclaredField("commandMap");
+				field.setAccessible(true);
+				map = (CommandMap) field.get(manager);
+				final Field field2 = SimpleCommandMap.class.getDeclaredField("knownCommands");
+				field2.setAccessible(true);
+				@SuppressWarnings("unchecked")
+				final Map<String, org.bukkit.command.Command> knownCommands = (Map<String, org.bukkit.command.Command>) field2
+						.get(map);
+				for (final Map.Entry<String, org.bukkit.command.Command> entry : knownCommands.entrySet()) {
+					if (entry.getKey().equals(command)) {
+						entry.getValue().unregister(map);
+					}
+				}
+				knownCommands.remove(command);
+			} catch (IllegalArgumentException | NoSuchFieldException | IllegalAccessException | SecurityException e) {
+				Lang.error(e);
+			}
+		}
+	}
+
+	public void unregisterCommands(final Object obj) {
+		for (final Method m : obj.getClass().getMethods()) {
+			if (m.getAnnotation(Command.class) != null) {
+				final Command command = m.getAnnotation(Command.class);
+				if (m.getParameterTypes().length > 1 || m.getParameterTypes()[0] != CommandArgs.class) {
+					Lang.console(LangKey.Command.COMMAND_UNREGISTER, m.getName());
+					continue;
+				}
+				unregister(command.name());
+				for (final String alias : command.aliases()) {
+					unregister(alias);
+				}
+			}
+		}
 	}
 
 	public static CommandHandler getInstance() {

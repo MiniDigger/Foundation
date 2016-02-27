@@ -44,6 +44,8 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 	private Map<String, Entry<Method, Object>> commandMap = new HashMap<String, Entry<Method, Object>>();
 	private CommandMap map;
 	private Plugin plugin;
+	// TODO Add a config option for relocations
+	private Map<String, String> relocations = new HashMap<>();
 
 	@Override
 	public boolean onEnable() {
@@ -54,6 +56,27 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 				Field field = SimplePluginManager.class.getDeclaredField("commandMap");
 				field.setAccessible(true);
 				map = (CommandMap) field.get(manager);
+
+				final Field field2 = SimpleCommandMap.class.getDeclaredField("knownCommands");
+				field2.setAccessible(true);
+				final Map<String, org.bukkit.command.Command> newknownCommands = new HashMap<>();
+				@SuppressWarnings("unchecked")
+				final Map<String, org.bukkit.command.Command> knownCommands = (Map<String, org.bukkit.command.Command>) field2
+						.get(map);
+				for (final Map.Entry<String, org.bukkit.command.Command> entry : knownCommands.entrySet()) {
+					for (final String key : relocations.keySet()) {
+						if (entry.getKey().startsWith(key)) {
+							newknownCommands.put(entry.getKey().replaceFirst(key, relocations.get(key)),
+									entry.getValue());
+							Lang.console(LangKey.Command.RELOCATION, entry.getKey(),
+									entry.getKey().replaceFirst(key, relocations.get(key)));
+						} else {
+							entry.getValue().unregister(map);
+						}
+					}
+				}
+				knownCommands.clear();
+				knownCommands.putAll(newknownCommands);
 			} catch (IllegalArgumentException | SecurityException | IllegalAccessException | NoSuchFieldException e) {
 				Lang.error(e);
 			}
@@ -93,6 +116,7 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 				Object methodObject = commandMap.get(cmdLabel).getValue();
 				Command command = method.getAnnotation(Command.class);
 				if (command.permission() != "" && !sender.hasPermission(command.permission())) {
+					// TODO find a better way to do this
 					sender.sendMessage(command.noPerm());
 					return true;
 				}

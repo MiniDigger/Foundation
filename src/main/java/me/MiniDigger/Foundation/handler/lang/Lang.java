@@ -1,7 +1,5 @@
 package me.MiniDigger.Foundation.handler.lang;
 
-import java.io.IOException;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
@@ -46,8 +44,8 @@ public class Lang {
 		}
 	}
 
-	public static void error(IOException ex) {
-		ex.printStackTrace();
+	public static void error(Exception e) {
+		e.printStackTrace();
 		// TODO better error handeling
 	}
 }

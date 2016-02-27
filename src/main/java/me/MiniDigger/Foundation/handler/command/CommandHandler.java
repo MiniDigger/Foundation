@@ -26,6 +26,8 @@ import org.bukkit.plugin.SimplePluginManager;
 
 import me.MiniDigger.Foundation.FoundationMain;
 import me.MiniDigger.Foundation.handler.FoundationHandler;
+import me.MiniDigger.Foundation.handler.lang.Lang;
+import me.MiniDigger.Foundation.handler.lang.LangKey;
 
 /**
  * Command Framework - CommandFramework <br>
@@ -42,10 +44,8 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 	private CommandMap map;
 	private Plugin plugin;
 
-	/**
-	 * Initializes the command framework and sets up the command maps
-	 */
-	public CommandHandler() {
+	@Override
+	public boolean onEnable() {
 		this.plugin = FoundationMain.getInstance();
 		if (plugin.getServer().getPluginManager() instanceof SimplePluginManager) {
 			SimplePluginManager manager = (SimplePluginManager) plugin.getServer().getPluginManager();
@@ -53,16 +53,11 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 				Field field = SimplePluginManager.class.getDeclaredField("commandMap");
 				field.setAccessible(true);
 				map = (CommandMap) field.get(manager);
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (NoSuchFieldException e) {
-				e.printStackTrace();
+			} catch (IllegalArgumentException | SecurityException | IllegalAccessException | NoSuchFieldException e) {
+				Lang.error(e);
 			}
 		}
+		return super.onEnable();
 	}
 
 	@Override
@@ -101,18 +96,14 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 					return true;
 				}
 				if (command.inGameOnly() && !(sender instanceof Player)) {
-					sender.sendMessage("This command is only performable in game");
+					Lang.msg(sender, LangKey.Command.ONLY_INGAME);
 					return true;
 				}
 				try {
 					method.invoke(methodObject,
 							new CommandArgs(sender, cmd, label, args, cmdLabel.split("\\.").length - 1));
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					e.printStackTrace();
+				} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+					Lang.error(e);
 				}
 				return true;
 			}
@@ -133,7 +124,7 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 			if (m.getAnnotation(Command.class) != null) {
 				Command command = m.getAnnotation(Command.class);
 				if (m.getParameterTypes().length > 1 || m.getParameterTypes()[0] != CommandArgs.class) {
-					System.out.println("Unable to register command " + m.getName() + ". Unexpected method arguments");
+					Lang.console(LangKey.Command.COMMAND_UNEXPECTED_METHOD_ARGS, m.getName());
 					continue;
 				}
 				registerCommand(command, command.name(), m, obj);
@@ -144,12 +135,11 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 				Completer comp = m.getAnnotation(Completer.class);
 				if (m.getParameterTypes().length > 1 || m.getParameterTypes().length == 0
 						|| m.getParameterTypes()[0] != CommandArgs.class) {
-					System.out.println(
-							"Unable to register tab completer " + m.getName() + ". Unexpected method arguments");
+					Lang.console(LangKey.Command.COMPLETER_UNEXPECTED_METHOD_ARGS, m.getName());
 					continue;
 				}
 				if (m.getReturnType() != List.class) {
-					System.out.println("Unable to register tab completer " + m.getName() + ". Unexpected return type");
+					Lang.console(LangKey.Command.COMPLETER_UNEXPECTED_RETURN_TYPE, m.getName());
 					continue;
 				}
 				registerCompleter(comp.name(), m, obj);
@@ -172,8 +162,9 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 				help.add(topic);
 			}
 		}
-		IndexHelpTopic topic = new IndexHelpTopic(plugin.getName(), "All commands for " + plugin.getName(), null, help,
-				"Below is a list of all " + plugin.getName() + " commands:");
+		IndexHelpTopic topic = new IndexHelpTopic(plugin.getName(),
+				Lang.translate(LangKey.Command.HELP_TITLE, plugin.getName()), null, help,
+				Lang.translate(LangKey.Command.HELP_BODY, plugin.getName()));
 		Bukkit.getServer().getHelpMap().addTopic(topic);
 	}
 
@@ -219,17 +210,16 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 					BukkitCompleter completer = (BukkitCompleter) field.get(command);
 					completer.addCompleter(label, m, obj);
 				} else {
-					System.out.println("Unable to register tab completer " + m.getName()
-							+ ". A tab completer is already registered for that command!");
+					Lang.console(LangKey.Command.COMPLETER_ALREADY_REGISTERED, m.getName());
 				}
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				Lang.error(ex);
 			}
 		}
 	}
 
 	private void defaultCommand(CommandArgs args) {
-		args.getSender().sendMessage(args.getLabel() + " is not handled! Oh noes!");
+		Lang.msg(args.getSender(), LangKey.Command.COMMAND_NOT_HANDLED, args.getLabel());
 	}
 
 	public static CommandHandler getInstance() {

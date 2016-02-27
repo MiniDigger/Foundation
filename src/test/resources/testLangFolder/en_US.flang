@@ -1,0 +1,18 @@
+########################
+# Foundation Lang File #
+# Lang: en_US
+# Author: MiniDigger   #
+########################
+###############
+#  foundation #
+###############
+foundation.enable=Enableing %0% by MiniDigger
+#########
+#  lang #
+#########
+lang.load=Loaded %0% langs
+#########
+#  test #
+#########
+test.test=Just a jUnit test %0%
+test.test_vars=Just %0% a %1% bunch %2% of %3% vars %4%

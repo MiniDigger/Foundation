@@ -11,6 +11,19 @@ foundation.enable=Enableing %0% by MiniDigger
 #  lang #
 #########
 lang.load=Loaded %0% langs
+############
+#  command #
+############
+command.completer_already_registered=Unable to register tab completer %0%. A tab completer is already registered for that command!
+command.help_title=All commands for %0%
+command.help_body=Below is a list of all %0% commands:
+command.completer_unexpected_return_type=Unable to register tab completer %0%. Unexpected return type
+command.completer_unexpected_method_args=Unable to register tab completer %0%. Unexpected method arguments
+command.completer_unexpected_method_args=Unable to register command %0%. Unexpected method arguments
+command.command_not_handled=%0% is not handled! Oh noes!
+command.only_ingame=This command is only performable in game
+command.completer_unregister=Unable to unregister command %0%. Unexpected method arguments
+command.relocation=Relocation: Moving %0% to %1%
 #########
 #  test #
 #########

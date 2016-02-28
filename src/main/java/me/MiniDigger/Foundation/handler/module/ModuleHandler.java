@@ -52,6 +52,7 @@ public class ModuleHandler extends FoundationHandler {
 				ModuleLoader loader = new ModuleLoader(getClass().getClassLoader(), f.toURI().toURL());
 				loaders.put(loader.getDescription().name(), loader);
 				modules.add(loader.getModule());
+				loader.getModule().onLoad();
 			} catch (MalformedURLException | InvalidModuleException | NoSuchFieldException | SecurityException
 					| IllegalArgumentException | IllegalAccessException e) {
 				Lang.error(e);

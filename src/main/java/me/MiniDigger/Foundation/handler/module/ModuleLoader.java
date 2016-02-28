@@ -7,7 +7,8 @@ import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
+
+import org.reflections.Reflections;
 
 import me.MiniDigger.Foundation.handler.lang.LangKey;
 
@@ -30,11 +31,10 @@ public class ModuleLoader extends URLClassLoader {
 		Field f = ClassLoader.class.getDeclaredField("classes");
 		f.setAccessible(true);
 
-		@SuppressWarnings("unchecked")
-		Vector<Class<?>> classes = (Vector<Class<?>>) f.get(this);
-		for (Class<?> clazz : classes) {
+		Reflections reflections = new Reflections("");
+		Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(ModuleDescription.class);
+		for (Class<?> clazz : annotated) {
 			if (clazz.isAnnotationPresent(ModuleDescription.class)) {
-				System.out.println("found main!");
 				main = clazz.getName();
 				desc = clazz.getAnnotation(ModuleDescription.class);
 				break;

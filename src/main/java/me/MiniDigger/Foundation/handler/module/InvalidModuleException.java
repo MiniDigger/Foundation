@@ -10,6 +10,7 @@ public class InvalidModuleException extends Exception {
 	private static final long serialVersionUID = -5545845044454915809L;
 
 	public InvalidModuleException(LangKey key, Exception ex, String... args) {
-		super(Lang.translate(key, ArrayUtils.add(args, ": " + ex.getClass().getName() + ": " + ex.getMessage())));
+		super(Lang.translate(key,
+				ArrayUtils.add(args, ": " + (ex != null ? (ex.getClass().getName() + ": " + ex.getMessage()) : ""))));
 	}
 }

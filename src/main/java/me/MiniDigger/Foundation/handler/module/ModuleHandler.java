@@ -10,8 +10,6 @@ import java.util.Map;
 
 import me.MiniDigger.Foundation.handler.FoundationHandler;
 import me.MiniDigger.Foundation.handler.lang.Lang;
-import me.MiniDigger.Foundation.handler.lang.module.InvalidModuleException;
-import me.MiniDigger.Foundation.handler.lang.module.ModuleLoader;
 
 public class ModuleHandler extends FoundationHandler {
 

@@ -1,4 +1,4 @@
-package me.MiniDigger.Foundation.handler.lang.module;
+package me.MiniDigger.Foundation.handler.module;
 
 import me.MiniDigger.Foundation.handler.module.Module;
 import me.MiniDigger.Foundation.handler.module.ModuleDescription;

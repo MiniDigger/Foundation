@@ -1,4 +1,4 @@
-package me.MiniDigger.Foundation.handler.lang.module;
+package me.MiniDigger.Foundation.handler.module;
 
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
@@ -10,9 +10,6 @@ import java.util.Set;
 import java.util.Vector;
 
 import me.MiniDigger.Foundation.handler.lang.LangKey;
-import me.MiniDigger.Foundation.handler.module.Module;
-import me.MiniDigger.Foundation.handler.module.ModuleDescription;
-import me.MiniDigger.Foundation.handler.module.ModuleHandler;
 
 /**
  * A ClassLoader for modules, to allow shared classes across multiple modules

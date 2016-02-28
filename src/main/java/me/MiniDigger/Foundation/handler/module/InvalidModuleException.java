@@ -1,4 +1,4 @@
-package me.MiniDigger.Foundation.handler.lang.module;
+package me.MiniDigger.Foundation.handler.module;
 
 import org.apache.commons.lang3.ArrayUtils;
 

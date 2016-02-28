@@ -11,7 +11,7 @@ import me.MiniDigger.Foundation.config.ConfigTest;
 import me.MiniDigger.Foundation.handler.FoundationHandler;
 import me.MiniDigger.Foundation.handler.command.CommandTest;
 import me.MiniDigger.Foundation.handler.lang.LangTest;
-import me.MiniDigger.Foundation.handler.lang.module.ModuleTest;
+import me.MiniDigger.Foundation.handler.module.ModuleTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ LangTest.class, CommandTest.class, ConfigTest.class, ModuleTest.class })

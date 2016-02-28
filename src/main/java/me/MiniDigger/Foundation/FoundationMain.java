@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import me.MiniDigger.Foundation.handler.FoundationHandler;
 import me.MiniDigger.Foundation.handler.command.CommandHandler;
+import me.MiniDigger.Foundation.handler.config.ConfigHandler;
 import me.MiniDigger.Foundation.handler.lang.Lang;
 import me.MiniDigger.Foundation.handler.lang.LangHandler;
 import me.MiniDigger.Foundation.handler.lang.LangKey;
@@ -13,8 +14,9 @@ import me.MiniDigger.Foundation.handler.lang.LangKey;
 public class FoundationMain extends JavaPlugin {
 	private static FoundationMain INSTANCE;
 	private static boolean testMode;
-	private static FoundationHandler[] handler = { LangHandler.getInstance(), CommandHandler.getInstance() };
-
+	private static final FoundationHandler[] handler = { LangHandler.getInstance(), CommandHandler.getInstance(),
+			ConfigHandler.getInstance() };
+	
 	@Override
 	public void onLoad() {
 		INSTANCE = this;

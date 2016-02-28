@@ -16,7 +16,8 @@ public class LangHandler extends FoundationHandler {
 	private List<LangStorage> langStorages = new ArrayList<>();
 	private List<String> langs = new ArrayList<>();
 
-	private File langFolder;
+	// default value only for unit tests
+	private File langFolder = new File("src\\test\\resources\\testLangFolder");
 
 	@Override
 	public boolean onLoad() {

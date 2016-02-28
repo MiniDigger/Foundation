@@ -50,6 +50,10 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 	@Override
 	public boolean onEnable() {
 		this.plugin = FoundationMain.getInstance();
+		if (this.plugin == null) {
+			return true; // we are in a unit test
+		}
+
 		if (plugin.getServer().getPluginManager() instanceof SimplePluginManager) {
 			SimplePluginManager manager = (SimplePluginManager) plugin.getServer().getPluginManager();
 			try {

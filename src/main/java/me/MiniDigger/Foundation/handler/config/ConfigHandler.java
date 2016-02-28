@@ -26,7 +26,13 @@ public class ConfigHandler extends FoundationHandler {
 	@Override
 	public boolean onLoad() {
 		initAdapter();
-		return super.onLoad();
+		return true;
+	}
+
+	@Override
+	public boolean onEnable() {
+		// TODO load foundation config
+		return true;
 	}
 
 	private void initAdapter() {

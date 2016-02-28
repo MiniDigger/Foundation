@@ -10,7 +10,6 @@ import me.MiniDigger.Foundation.handler.config.ConfigHandler;
 import me.MiniDigger.Foundation.handler.lang.Lang;
 import me.MiniDigger.Foundation.handler.lang.LangHandler;
 import me.MiniDigger.Foundation.handler.lang.LangKey;
-import me.MiniDigger.Foundation.handler.lang.module.ModuleTest;
 import me.MiniDigger.Foundation.handler.module.ModuleHandler;
 
 public class FoundationMain extends JavaPlugin {

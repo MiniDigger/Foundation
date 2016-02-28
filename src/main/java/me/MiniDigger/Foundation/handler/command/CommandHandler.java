@@ -83,9 +83,10 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 				knownCommands.putAll(newknownCommands);
 			} catch (IllegalArgumentException | SecurityException | IllegalAccessException | NoSuchFieldException e) {
 				Lang.error(e);
+				return false;
 			}
 		}
-		return super.onEnable();
+		return true;
 	}
 
 	@Override

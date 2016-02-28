@@ -27,7 +27,7 @@ public class ModuleHandler extends FoundationHandler {
 	@Override
 	public boolean onLoad() {
 		loadModules();
-		return super.onLoad();
+		return true;
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class ModuleHandler extends FoundationHandler {
 		for (Module m : modules) {
 			m.onEnable();
 		}
-		return super.onEnable();
+		return true;
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class ModuleHandler extends FoundationHandler {
 		for (Module m : modules) {
 			m.onDisable();
 		}
-		return super.onDisable();
+		return true;
 	}
 
 	public void loadModules() {

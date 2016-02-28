@@ -22,7 +22,7 @@ public class LangHandler extends FoundationHandler {
 	@Override
 	public boolean onLoad() {
 		loadLangs();
-		return super.onLoad();
+		return true;
 	}
 
 	public void loadLangs() {

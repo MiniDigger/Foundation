@@ -37,6 +37,7 @@ public class ModuleLoader extends URLClassLoader {
 				System.out.println("found main!");
 				main = clazz.getName();
 				desc = clazz.getAnnotation(ModuleDescription.class);
+				break;
 			}
 		}
 

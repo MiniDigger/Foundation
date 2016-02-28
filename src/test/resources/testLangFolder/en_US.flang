@@ -24,6 +24,13 @@ command.command_not_handled=%0% is not handled! Oh noes!
 command.only_ingame=This command is only performable in game
 command.completer_unregister=Unable to unregister command %0%. Unexpected method arguments
 command.relocation=Relocation: Moving %0% to %1%
+###########
+#  module #
+###########
+module.error_no_main=Cannot find main class %0%
+module.error_no_extend=Main class %0% does not extend Module
+module.error_no_constructor=No public constructor in main class %0%
+module.error_abnormal_type=Abnormal plugin type for main class %0%
 #########
 #  test #
 #########

@@ -100,12 +100,15 @@ public class LangKey {
 	}
 
 	public static class Module {
-		public static final String NAME = "test";
+		public static final String NAME = "module";
 
-		public static final LangKey ERROR_NO_MAIN = new LangKey(NAME, "test", "Just a jUnit test %0%");
-		public static final LangKey ERROR_NO_EXTEND = new LangKey(NAME, "test", "Just a jUnit test %0%");
-		public static final LangKey ERROR_NO_CONSTRUCTOR = new LangKey(NAME, "test", "Just a jUnit test %0%");
-		public static final LangKey ERROR_ABNORMAL_TYPE = new LangKey(NAME, "test", "Just a jUnit test %0%");
+		public static final LangKey ERROR_NO_MAIN = new LangKey(NAME, "error_no_main", "Cannot find main class %0%");
+		public static final LangKey ERROR_NO_EXTEND = new LangKey(NAME, "error_no_extend",
+				"Main class %0% does not extend Module");
+		public static final LangKey ERROR_NO_CONSTRUCTOR = new LangKey(NAME, "error_no_constructor",
+				"No public constructor in main class %0%");
+		public static final LangKey ERROR_ABNORMAL_TYPE = new LangKey(NAME, "error_abnormal_type",
+				"Abnormal plugin type for main class %0%");
 
 		public static List<LangKey> values() {
 			List<LangKey> result = new ArrayList<>();
@@ -114,7 +117,7 @@ public class LangKey {
 			result.add(ERROR_NO_EXTEND);
 			result.add(ERROR_NO_CONSTRUCTOR);
 			result.add(ERROR_ABNORMAL_TYPE);
-			
+
 			return result;
 		}
 	}

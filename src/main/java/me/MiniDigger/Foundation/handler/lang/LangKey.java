@@ -99,6 +99,26 @@ public class LangKey {
 		}
 	}
 
+	public static class Module {
+		public static final String NAME = "test";
+
+		public static final LangKey ERROR_NO_MAIN = new LangKey(NAME, "test", "Just a jUnit test %0%");
+		public static final LangKey ERROR_NO_EXTEND = new LangKey(NAME, "test", "Just a jUnit test %0%");
+		public static final LangKey ERROR_NO_CONSTRUCTOR = new LangKey(NAME, "test", "Just a jUnit test %0%");
+		public static final LangKey ERROR_ABNORMAL_TYPE = new LangKey(NAME, "test", "Just a jUnit test %0%");
+
+		public static List<LangKey> values() {
+			List<LangKey> result = new ArrayList<>();
+
+			result.add(ERROR_NO_MAIN);
+			result.add(ERROR_NO_EXTEND);
+			result.add(ERROR_NO_CONSTRUCTOR);
+			result.add(ERROR_ABNORMAL_TYPE);
+			
+			return result;
+		}
+	}
+
 	public static class TEST {
 		public static final String NAME = "test";
 
@@ -122,6 +142,7 @@ public class LangKey {
 		result.addAll(Foundation.values());
 		result.addAll(Lang.values());
 		result.addAll(Command.values());
+		result.addAll(Module.values());
 		result.addAll(TEST.values());
 
 		return result;

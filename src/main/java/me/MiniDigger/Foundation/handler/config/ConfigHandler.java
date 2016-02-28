@@ -20,7 +20,7 @@ import me.MiniDigger.Foundation.handler.lang.Lang;
 public class ConfigHandler extends FoundationHandler {
 
 	private static ConfigHandler INSTANCE;
-	private List<ConfigAdapter> adapters = new ArrayList<>();
+	private final List<ConfigAdapter> adapters = new ArrayList<>();
 	private ConfigAdapter defaultAdapter;
 
 	@Override
@@ -41,11 +41,11 @@ public class ConfigHandler extends FoundationHandler {
 		registerAdapter(new IntegerConfigAdapter());
 	}
 
-	public void registerAdapter(ConfigAdapter adapter) {
+	public void registerAdapter(final ConfigAdapter adapter) {
 		adapters.add(adapter);
 	}
 
-	public Config loadConfig(Class<? extends Config> config, File file) {
+	public Config loadConfig(final Class<? extends Config> config, final File file) {
 		Config c;
 		try {
 			c = config.newInstance();
@@ -55,16 +55,16 @@ public class ConfigHandler extends FoundationHandler {
 		}
 		c.setFileName(file.getName());
 
-		FileConfiguration fc = YamlConfiguration.loadConfiguration(file);
+		final FileConfiguration fc = YamlConfiguration.loadConfiguration(file);
 		try {
 			fc.load(file);
 		} catch (IOException | InvalidConfigurationException e1) {
 			Lang.error(e1);
 		}
 
-		for (Field f : config.getFields()) {
+		for (final Field f : config.getFields()) {
 			if (f.isAnnotationPresent(Storeable.class)) {
-				ConfigAdapter a = getAdapter(f.getType());
+				final ConfigAdapter a = getAdapter(f.getType());
 				try {
 					f.set(c, a.fromString(fc.getString(f.getName())));
 				} catch (IllegalArgumentException | IllegalAccessException e) {
@@ -75,12 +75,12 @@ public class ConfigHandler extends FoundationHandler {
 		return c;
 	}
 
-	public void saveConfig(SampleConfig config, File file) {
-		FileConfiguration fc = YamlConfiguration.loadConfiguration(file);
+	public void saveConfig(final SampleConfig config, final File file) {
+		final FileConfiguration fc = YamlConfiguration.loadConfiguration(file);
 
-		for (Field f : config.getClass().getFields()) {
+		for (final Field f : config.getClass().getFields()) {
 			if (f.isAnnotationPresent(Storeable.class)) {
-				ConfigAdapter a = getAdapter(f.getType());
+				final ConfigAdapter a = getAdapter(f.getType());
 				try {
 					fc.set(f.getName(), a.toString(f.get(config)));
 				} catch (IllegalArgumentException | IllegalAccessException e) {
@@ -91,13 +91,13 @@ public class ConfigHandler extends FoundationHandler {
 
 		try {
 			fc.save(file);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			Lang.error(e);
 		}
 	}
 
-	public ConfigAdapter getAdapter(Class<?> clazz) {
-		for (ConfigAdapter a : adapters) {
+	public ConfigAdapter getAdapter(final Class<?> clazz) {
+		for (final ConfigAdapter a : adapters) {
 			if (a.getClazz().equals(clazz)) {
 				return a;
 			}

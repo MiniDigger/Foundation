@@ -13,31 +13,31 @@ import org.bukkit.plugin.Plugin;
  * Command Framework - BukkitCommand <br>
  * An implementation of Bukkit's Command class allowing for registering of
  * commands without plugin.yml
- * 
+ *
  * @author minnymin3
- * 
+ *
  */
 public class BukkitCommand extends org.bukkit.command.Command {
 
 	private final Plugin owningPlugin;
-	private CommandExecutor executor;
+	private final CommandExecutor executor;
 	protected BukkitCompleter completer;
 
 	/**
 	 * A slimmed down PluginCommand
-	 * 
+	 *
 	 * @param name
 	 * @param owner
 	 */
-	protected BukkitCommand(String label, CommandExecutor executor, Plugin owner) {
+	protected BukkitCommand(final String label, final CommandExecutor executor, final Plugin owner) {
 		super(label);
 		this.executor = executor;
-		this.owningPlugin = owner;
-		this.usageMessage = "";
+		owningPlugin = owner;
+		usageMessage = "";
 	}
 
 	@Override
-	public boolean execute(CommandSender sender, String commandLabel, String[] args) {
+	public boolean execute(final CommandSender sender, final String commandLabel, final String[] args) {
 		boolean success = false;
 
 		if (!owningPlugin.isEnabled()) {
@@ -50,13 +50,13 @@ public class BukkitCommand extends org.bukkit.command.Command {
 
 		try {
 			success = executor.onCommand(sender, this, commandLabel, args);
-		} catch (Throwable ex) {
-			throw new CommandException("Unhandled exception executing command '" + commandLabel + "' in plugin "
-					+ owningPlugin.getDescription().getFullName(), ex);
+		} catch (final Throwable ex) {
+			throw new CommandException("Unhandled exception executing command '" + commandLabel + "' in plugin " + owningPlugin.getDescription().getFullName(),
+					ex);
 		}
 
 		if (!success && usageMessage.length() > 0) {
-			for (String line : usageMessage.replace("<command>", commandLabel).split("\n")) {
+			for (final String line : usageMessage.replace("<command>", commandLabel).split("\n")) {
 				sender.sendMessage(line);
 			}
 		}
@@ -65,7 +65,7 @@ public class BukkitCommand extends org.bukkit.command.Command {
 	}
 
 	@Override
-	public java.util.List<String> tabComplete(CommandSender sender, String alias, String[] args)
+	public java.util.List<String> tabComplete(final CommandSender sender, final String alias, final String[] args)
 			throws CommandException, IllegalArgumentException {
 		Validate.notNull(sender, "Sender cannot be null");
 		Validate.notNull(args, "Arguments cannot be null");
@@ -79,14 +79,13 @@ public class BukkitCommand extends org.bukkit.command.Command {
 			if (completions == null && executor instanceof TabCompleter) {
 				completions = ((TabCompleter) executor).onTabComplete(sender, this, alias, args);
 			}
-		} catch (Throwable ex) {
-			StringBuilder message = new StringBuilder();
+		} catch (final Throwable ex) {
+			final StringBuilder message = new StringBuilder();
 			message.append("Unhandled exception during tab completion for command '/").append(alias).append(' ');
-			for (String arg : args) {
+			for (final String arg : args) {
 				message.append(arg).append(' ');
 			}
-			message.deleteCharAt(message.length() - 1).append("' in plugin ")
-					.append(owningPlugin.getDescription().getFullName());
+			message.deleteCharAt(message.length() - 1).append("' in plugin ").append(owningPlugin.getDescription().getFullName());
 			throw new CommandException(message.toString(), ex);
 		}
 

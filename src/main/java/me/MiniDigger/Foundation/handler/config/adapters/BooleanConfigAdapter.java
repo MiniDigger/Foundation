@@ -7,11 +7,11 @@ import me.MiniDigger.Foundation.handler.config.ConfigAdapterNotApplicable;
 
 public class BooleanConfigAdapter extends ConfigAdapter {
 
-	private String[] trueStrings = { "true", "yes", "yeah", "y", "t", "ja" };
-	private String[] falseStrings = { "false", "no", "nope", "n", "f", "nein" };
+	private final String[] trueStrings = { "true", "yes", "yeah", "y", "t", "ja" };
+	private final String[] falseStrings = { "false", "no", "nope", "n", "f", "nein" };
 
 	@Override
-	public Object fromString(String source) {
+	public Object fromString(final String source) {
 		if (ArrayUtils.contains(trueStrings, source.toLowerCase())) {
 			return Boolean.TRUE;
 		} else if (ArrayUtils.contains(falseStrings, source.toLowerCase())) {
@@ -21,9 +21,9 @@ public class BooleanConfigAdapter extends ConfigAdapter {
 	}
 
 	@Override
-	public String toString(Object source) {
+	public String toString(final Object source) {
 		if (source instanceof Boolean) {
-			Boolean b = (Boolean) source;
+			final Boolean b = (Boolean) source;
 			if (b) {
 				return "true";
 			} else {

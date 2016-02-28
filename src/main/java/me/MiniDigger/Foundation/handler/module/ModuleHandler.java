@@ -15,9 +15,9 @@ public class ModuleHandler extends FoundationHandler {
 
 	private static ModuleHandler INSTANCE;
 
-	private List<Module> modules = new ArrayList<>();
+	private final List<Module> modules = new ArrayList<>();
 
-	private File moduleFolder = new File("src\\test\\resources\\testModuleFolder");
+	private final File moduleFolder = new File("src\\test\\resources\\testModuleFolder");
 
 	private final Map<String, Class<?>> classes = new HashMap<String, Class<?>>();
 	private final Map<String, ModuleLoader> loaders = new LinkedHashMap<String, ModuleLoader>();
@@ -30,7 +30,7 @@ public class ModuleHandler extends FoundationHandler {
 
 	@Override
 	public boolean onEnable() {
-		for (Module m : modules) {
+		for (final Module m : modules) {
 			m.onEnable();
 		}
 		return true;
@@ -38,23 +38,23 @@ public class ModuleHandler extends FoundationHandler {
 
 	@Override
 	public boolean onDisable() {
-		for (Module m : modules) {
+		for (final Module m : modules) {
 			m.onDisable();
 		}
 		return true;
 	}
 
 	public void loadModules() {
-		for (File f : moduleFolder.listFiles((dir, name) -> {
+		for (final File f : moduleFolder.listFiles((dir, name) -> {
 			return name.endsWith(".jar");
 		})) {
 			try {
-				ModuleLoader loader = new ModuleLoader(getClass().getClassLoader(), f.toURI().toURL());
+				final ModuleLoader loader = new ModuleLoader(getClass().getClassLoader(), f.toURI().toURL());
 				loaders.put(loader.getDescription().name(), loader);
 				modules.add(loader.getModule());
 				loader.getModule().onLoad();
-			} catch (MalformedURLException | InvalidModuleException | NoSuchFieldException | SecurityException
-					| IllegalArgumentException | IllegalAccessException e) {
+			} catch (MalformedURLException | InvalidModuleException | NoSuchFieldException | SecurityException | IllegalArgumentException
+					| IllegalAccessException e) {
 				Lang.error(e);
 			}
 		}

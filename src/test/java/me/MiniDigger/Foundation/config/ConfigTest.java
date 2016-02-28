@@ -1,6 +1,7 @@
 package me.MiniDigger.Foundation.config;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 
@@ -12,7 +13,7 @@ import me.MiniDigger.Foundation.handler.config.ConfigHandler;
 
 public class ConfigTest {
 
-	private File configFolder = new File("src\\test\\resources\\testConfigFolder");
+	private final File configFolder = new File("src\\test\\resources\\testConfigFolder");
 
 	@BeforeClass
 	public static void setup() {
@@ -21,8 +22,8 @@ public class ConfigTest {
 
 	@Test
 	public void testSaveAndLoad() {
-		File file = new File(configFolder, "sampleconfig.yml");
-		SampleConfig config = new SampleConfig();
+		final File file = new File(configFolder, "sampleconfig.yml");
+		final SampleConfig config = new SampleConfig();
 
 		config.bool = true;
 		config.integer = 9000;
@@ -30,9 +31,9 @@ public class ConfigTest {
 
 		ConfigHandler.getInstance().saveConfig(config, file);
 
-		Config c = ConfigHandler.getInstance().loadConfig(SampleConfig.class, file);
+		final Config c = ConfigHandler.getInstance().loadConfig(SampleConfig.class, file);
 		if (c instanceof SampleConfig) {
-			SampleConfig sc = (SampleConfig) c;
+			final SampleConfig sc = (SampleConfig) c;
 			assertEquals(true, sc.bool);
 			assertEquals(Integer.valueOf(9000), sc.integer);
 			assertEquals("Hello from the other side", sc.string);

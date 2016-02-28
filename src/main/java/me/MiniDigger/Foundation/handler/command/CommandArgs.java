@@ -7,30 +7,29 @@ import org.bukkit.entity.Player;
  * Command Framework - CommandArgs <br>
  * This class is passed to the command methods and contains various utilities as
  * well as the command info.
- * 
+ *
  * @author minnymin3
- * 
+ *
  */
 public class CommandArgs {
 
-	private CommandSender sender;
-	private org.bukkit.command.Command command;
-	private String label;
-	private String[] args;
+	private final CommandSender sender;
+	private final org.bukkit.command.Command command;
+	private final String label;
+	private final String[] args;
 
-	protected CommandArgs(CommandSender sender, org.bukkit.command.Command command, String label, String[] args,
-			int subCommand) {
-		String[] modArgs = new String[args.length - subCommand];
+	protected CommandArgs(final CommandSender sender, final org.bukkit.command.Command command, final String label, final String[] args, final int subCommand) {
+		final String[] modArgs = new String[args.length - subCommand];
 		for (int i = 0; i < args.length - subCommand; i++) {
 			modArgs[i] = args[i + subCommand];
 		}
 
-		StringBuffer buffer = new StringBuffer();
+		final StringBuffer buffer = new StringBuffer();
 		buffer.append(label);
 		for (int x = 0; x < subCommand; x++) {
 			buffer.append("." + args[x]);
 		}
-		String cmdLabel = buffer.toString();
+		final String cmdLabel = buffer.toString();
 		this.sender = sender;
 		this.command = command;
 		this.label = cmdLabel;
@@ -39,7 +38,7 @@ public class CommandArgs {
 
 	/**
 	 * Gets the command sender
-	 * 
+	 *
 	 * @return
 	 */
 	public CommandSender getSender() {
@@ -48,7 +47,7 @@ public class CommandArgs {
 
 	/**
 	 * Gets the original command object
-	 * 
+	 *
 	 * @return
 	 */
 	public org.bukkit.command.Command getCommand() {
@@ -57,7 +56,7 @@ public class CommandArgs {
 
 	/**
 	 * Gets the label including sub command labels of this command
-	 * 
+	 *
 	 * @return Something like 'test.subcommand'
 	 */
 	public String getLabel() {
@@ -68,7 +67,7 @@ public class CommandArgs {
 	 * Gets all the arguments after the command's label. ie. if the command
 	 * label was test.subcommand and the arguments were subcommand foo foo, it
 	 * would only return 'foo foo' because 'subcommand' is part of the command
-	 * 
+	 *
 	 * @return
 	 */
 	public String[] getArgs() {
@@ -77,15 +76,18 @@ public class CommandArgs {
 	
 	/**
 	 * Gets the argument at the specified index
-	 * @param index The index to get
+	 *
+	 * @param index
+	 *            The index to get
 	 * @return The string at the specified index
 	 */
-	public String getArgs(int index) {
+	public String getArgs(final int index) {
 		return args[index];
 	}
 
 	/**
 	 * Returns the length of the command arguments
+	 *
 	 * @return int length of args
 	 */
 	public int length() {

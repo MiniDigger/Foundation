@@ -1,6 +1,7 @@
 package me.MiniDigger.Foundation.handler.lang;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
@@ -22,8 +23,7 @@ public class LangTest {
 	
 	@Test
 	public void test1Save() {
-		LangHandler.getInstance().getDefaultLangStorage()
-				.save(new File("src\\test\\resources\\testLangFolder\\en_US.flang"));
+		LangHandler.getInstance().getDefaultLangStorage().save(new File("src\\test\\resources\\testLangFolder\\en_US.flang"));
 	}
 
 	@Test
@@ -53,8 +53,7 @@ public class LangTest {
 
 	@Test
 	public void testMsg() {
-		Lang.msg(FoundationMain.getTestCommandSender(), LangKey.TEST.TEST_VARS, new LangType("test_TEST"), "1", "2",
-				"3", "4", "5");
+		Lang.msg(FoundationMain.getTestCommandSender(), LangKey.TEST.TEST_VARS, new LangType("test_TEST"), "1", "2", "3", "4", "5");
 	}
 
 	@Test
@@ -74,8 +73,7 @@ public class LangTest {
 
 	@Test
 	public void testTranslateWithTestLang() {
-		assertEquals("I 1 am 2 a 3 random 4 test 5",
-				Lang.translate(LangKey.TEST.TEST_VARS, new LangType("test_TEST"), "1", "2", "3", "4", "5"));
+		assertEquals("I 1 am 2 a 3 random 4 test 5", Lang.translate(LangKey.TEST.TEST_VARS, new LangType("test_TEST"), "1", "2", "3", "4", "5"));
 	}
 
 	@Test
@@ -85,7 +83,6 @@ public class LangTest {
 
 	@Test
 	public void testTranslateWithTooMuchVars() {
-		assertEquals("Just 1 a 2 bunch 3 of 4 vars 5",
-				Lang.translate(LangKey.TEST.TEST_VARS, "1", "2", "3", "4", "5", "6"));
+		assertEquals("Just 1 a 2 bunch 3 of 4 vars 5", Lang.translate(LangKey.TEST.TEST_VARS, "1", "2", "3", "4", "5", "6"));
 	}
 }

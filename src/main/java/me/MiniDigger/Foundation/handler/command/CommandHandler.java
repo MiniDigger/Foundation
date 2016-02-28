@@ -33,31 +33,31 @@ import me.MiniDigger.Foundation.handler.lang.LangKey;
 /**
  * Command Framework - CommandFramework <br>
  * The main command framework class used for controlling the framework.
- * 
+ *
  * @author minnymin3, modified by MiniDigger
- * 
+ *
  */
 public class CommandHandler extends FoundationHandler implements CommandExecutor {
 
 	private static CommandHandler INSTANCE;
 
-	private Map<String, Entry<Method, Object>> commandMap = new HashMap<String, Entry<Method, Object>>();
+	private final Map<String, Entry<Method, Object>> commandMap = new HashMap<String, Entry<Method, Object>>();
 	private CommandMap map;
 	private Plugin plugin;
 	// TODO Add a config option for relocations
-	private Map<String, String> relocations = new HashMap<>();
+	private final Map<String, String> relocations = new HashMap<>();
 
 	@Override
 	public boolean onEnable() {
-		this.plugin = FoundationMain.getInstance();
-		if (this.plugin == null) {
+		plugin = FoundationMain.getInstance();
+		if (plugin == null) {
 			return true; // we are in a unit test
 		}
 
 		if (plugin.getServer().getPluginManager() instanceof SimplePluginManager) {
-			SimplePluginManager manager = (SimplePluginManager) plugin.getServer().getPluginManager();
+			final SimplePluginManager manager = (SimplePluginManager) plugin.getServer().getPluginManager();
 			try {
-				Field field = SimplePluginManager.class.getDeclaredField("commandMap");
+				final Field field = SimplePluginManager.class.getDeclaredField("commandMap");
 				field.setAccessible(true);
 				map = (CommandMap) field.get(manager);
 
@@ -65,15 +65,12 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 				field2.setAccessible(true);
 				final Map<String, org.bukkit.command.Command> newknownCommands = new HashMap<>();
 				@SuppressWarnings("unchecked")
-				final Map<String, org.bukkit.command.Command> knownCommands = (Map<String, org.bukkit.command.Command>) field2
-						.get(map);
+				final Map<String, org.bukkit.command.Command> knownCommands = (Map<String, org.bukkit.command.Command>) field2.get(map);
 				for (final Map.Entry<String, org.bukkit.command.Command> entry : knownCommands.entrySet()) {
 					for (final String key : relocations.keySet()) {
 						if (entry.getKey().startsWith(key)) {
-							newknownCommands.put(entry.getKey().replaceFirst(key, relocations.get(key)),
-									entry.getValue());
-							Lang.console(LangKey.Command.RELOCATION, entry.getKey(),
-									entry.getKey().replaceFirst(key, relocations.get(key)));
+							newknownCommands.put(entry.getKey().replaceFirst(key, relocations.get(key)), entry.getValue());
+							Lang.console(LangKey.Command.RELOCATION, entry.getKey(), entry.getKey().replaceFirst(key, relocations.get(key)));
 						} else {
 							entry.getValue().unregister(map);
 						}
@@ -90,13 +87,13 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
+	public boolean onCommand(final CommandSender sender, final org.bukkit.command.Command cmd, final String label, final String[] args) {
 		return handleCommand(sender, cmd, label, args);
 	}
 
 	/**
 	 * Handles commands. Used in the onCommand method in your JavaPlugin class
-	 * 
+	 *
 	 * @param sender
 	 *            The {@link org.bukkit.command.CommandSender} parsed from
 	 *            onCommand
@@ -108,18 +105,18 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 	 *            The arguments parsed from onCommand
 	 * @return Always returns true for simplicity's sake in onCommand
 	 */
-	public boolean handleCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
+	public boolean handleCommand(final CommandSender sender, final org.bukkit.command.Command cmd, final String label, final String[] args) {
 		for (int i = args.length; i >= 0; i--) {
-			StringBuffer buffer = new StringBuffer();
+			final StringBuffer buffer = new StringBuffer();
 			buffer.append(label.toLowerCase());
 			for (int x = 0; x < i; x++) {
 				buffer.append("." + args[x].toLowerCase());
 			}
-			String cmdLabel = buffer.toString();
+			final String cmdLabel = buffer.toString();
 			if (commandMap.containsKey(cmdLabel)) {
-				Method method = commandMap.get(cmdLabel).getKey();
-				Object methodObject = commandMap.get(cmdLabel).getValue();
-				Command command = method.getAnnotation(Command.class);
+				final Method method = commandMap.get(cmdLabel).getKey();
+				final Object methodObject = commandMap.get(cmdLabel).getValue();
+				final Command command = method.getAnnotation(Command.class);
 				if (command.permission() != "" && !sender.hasPermission(command.permission())) {
 					// TODO find a better way to do this
 					sender.sendMessage(command.noPerm());
@@ -130,8 +127,7 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 					return true;
 				}
 				try {
-					method.invoke(methodObject,
-							new CommandArgs(sender, cmd, label, args, cmdLabel.split("\\.").length - 1));
+					method.invoke(methodObject, new CommandArgs(sender, cmd, label, args, cmdLabel.split("\\.").length - 1));
 				} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
 					Lang.error(e);
 				}
@@ -145,26 +141,25 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 	/**
 	 * Registers all command and completer methods inside of the object. Similar
 	 * to Bukkit's registerEvents method.
-	 * 
+	 *
 	 * @param obj
 	 *            The object to register the commands of
 	 */
-	public void registerCommands(Object obj) {
-		for (Method m : obj.getClass().getMethods()) {
+	public void registerCommands(final Object obj) {
+		for (final Method m : obj.getClass().getMethods()) {
 			if (m.getAnnotation(Command.class) != null) {
-				Command command = m.getAnnotation(Command.class);
+				final Command command = m.getAnnotation(Command.class);
 				if (m.getParameterTypes().length > 1 || m.getParameterTypes()[0] != CommandArgs.class) {
 					Lang.console(LangKey.Command.COMMAND_UNEXPECTED_METHOD_ARGS, m.getName());
 					continue;
 				}
 				registerCommand(command, command.name(), m, obj);
-				for (String alias : command.aliases()) {
+				for (final String alias : command.aliases()) {
 					registerCommand(command, alias, m, obj);
 				}
 			} else if (m.getAnnotation(Completer.class) != null) {
-				Completer comp = m.getAnnotation(Completer.class);
-				if (m.getParameterTypes().length > 1 || m.getParameterTypes().length == 0
-						|| m.getParameterTypes()[0] != CommandArgs.class) {
+				final Completer comp = m.getAnnotation(Completer.class);
+				if (m.getParameterTypes().length > 1 || m.getParameterTypes().length == 0 || m.getParameterTypes()[0] != CommandArgs.class) {
 					Lang.console(LangKey.Command.COMPLETER_UNEXPECTED_METHOD_ARGS, m.getName());
 					continue;
 				}
@@ -173,7 +168,7 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 					continue;
 				}
 				registerCompleter(comp.name(), m, obj);
-				for (String alias : comp.aliases()) {
+				for (final String alias : comp.aliases()) {
 					registerCompleter(alias, m, obj);
 				}
 			}
@@ -184,27 +179,25 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 	 * Registers all the commands under the plugin's help
 	 */
 	public void registerHelp() {
-		Set<HelpTopic> help = new TreeSet<HelpTopic>(HelpTopicComparator.helpTopicComparatorInstance());
-		for (String s : commandMap.keySet()) {
+		final Set<HelpTopic> help = new TreeSet<HelpTopic>(HelpTopicComparator.helpTopicComparatorInstance());
+		for (final String s : commandMap.keySet()) {
 			if (!s.contains(".")) {
-				org.bukkit.command.Command cmd = map.getCommand(s);
-				HelpTopic topic = new GenericCommandHelpTopic(cmd);
+				final org.bukkit.command.Command cmd = map.getCommand(s);
+				final HelpTopic topic = new GenericCommandHelpTopic(cmd);
 				help.add(topic);
 			}
 		}
-		IndexHelpTopic topic = new IndexHelpTopic(plugin.getName(),
-				Lang.translate(LangKey.Command.HELP_TITLE, plugin.getName()), null, help,
+		final IndexHelpTopic topic = new IndexHelpTopic(plugin.getName(), Lang.translate(LangKey.Command.HELP_TITLE, plugin.getName()), null, help,
 				Lang.translate(LangKey.Command.HELP_BODY, plugin.getName()));
 		Bukkit.getServer().getHelpMap().addTopic(topic);
 	}
 
-	public void registerCommand(Command command, String label, Method m, Object obj) {
+	public void registerCommand(final Command command, final String label, final Method m, final Object obj) {
 		commandMap.put(label.toLowerCase(), new AbstractMap.SimpleEntry<Method, Object>(m, obj));
-		commandMap.put(this.plugin.getName() + ':' + label.toLowerCase(),
-				new AbstractMap.SimpleEntry<Method, Object>(m, obj));
-		String cmdLabel = label.split("\\.")[0].toLowerCase();
+		commandMap.put(plugin.getName() + ':' + label.toLowerCase(), new AbstractMap.SimpleEntry<Method, Object>(m, obj));
+		final String cmdLabel = label.split("\\.")[0].toLowerCase();
 		if (map.getCommand(cmdLabel) == null) {
-			org.bukkit.command.Command cmd = new BukkitCommand(cmdLabel, this, plugin);
+			final org.bukkit.command.Command cmd = new BukkitCommand(cmdLabel, this, plugin);
 			map.register(plugin.getName(), cmd);
 		}
 		if (!command.description().equalsIgnoreCase("") && cmdLabel == label) {
@@ -215,40 +208,40 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 		}
 	}
 
-	public void registerCompleter(String label, Method m, Object obj) {
-		String cmdLabel = label.split("\\.")[0].toLowerCase();
+	public void registerCompleter(final String label, final Method m, final Object obj) {
+		final String cmdLabel = label.split("\\.")[0].toLowerCase();
 		if (map.getCommand(cmdLabel) == null) {
-			org.bukkit.command.Command command = new BukkitCommand(cmdLabel, this, plugin);
+			final org.bukkit.command.Command command = new BukkitCommand(cmdLabel, this, plugin);
 			map.register(plugin.getName(), command);
 		}
 		if (map.getCommand(cmdLabel) instanceof BukkitCommand) {
-			BukkitCommand command = (BukkitCommand) map.getCommand(cmdLabel);
+			final BukkitCommand command = (BukkitCommand) map.getCommand(cmdLabel);
 			if (command.completer == null) {
 				command.completer = new BukkitCompleter();
 			}
 			command.completer.addCompleter(label, m, obj);
 		} else if (map.getCommand(cmdLabel) instanceof PluginCommand) {
 			try {
-				Object command = map.getCommand(cmdLabel);
-				Field field = command.getClass().getDeclaredField("completer");
+				final Object command = map.getCommand(cmdLabel);
+				final Field field = command.getClass().getDeclaredField("completer");
 				field.setAccessible(true);
 				if (field.get(command) == null) {
-					BukkitCompleter completer = new BukkitCompleter();
+					final BukkitCompleter completer = new BukkitCompleter();
 					completer.addCompleter(label, m, obj);
 					field.set(command, completer);
 				} else if (field.get(command) instanceof BukkitCompleter) {
-					BukkitCompleter completer = (BukkitCompleter) field.get(command);
+					final BukkitCompleter completer = (BukkitCompleter) field.get(command);
 					completer.addCompleter(label, m, obj);
 				} else {
 					Lang.console(LangKey.Command.COMPLETER_ALREADY_REGISTERED, m.getName());
 				}
-			} catch (Exception ex) {
+			} catch (final Exception ex) {
 				Lang.error(ex);
 			}
 		}
 	}
 
-	private void defaultCommand(CommandArgs args) {
+	private void defaultCommand(final CommandArgs args) {
 		Lang.msg(args.getSender(), LangKey.Command.COMMAND_NOT_HANDLED, args.getLabel());
 	}
 
@@ -262,8 +255,7 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 				final Field field2 = SimpleCommandMap.class.getDeclaredField("knownCommands");
 				field2.setAccessible(true);
 				@SuppressWarnings("unchecked")
-				final Map<String, org.bukkit.command.Command> knownCommands = (Map<String, org.bukkit.command.Command>) field2
-						.get(map);
+				final Map<String, org.bukkit.command.Command> knownCommands = (Map<String, org.bukkit.command.Command>) field2.get(map);
 				for (final Map.Entry<String, org.bukkit.command.Command> entry : knownCommands.entrySet()) {
 					if (entry.getKey().equals(command)) {
 						entry.getValue().unregister(map);

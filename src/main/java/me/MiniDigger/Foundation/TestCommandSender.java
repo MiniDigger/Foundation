@@ -13,22 +13,22 @@ import org.bukkit.plugin.Plugin;
 public class TestCommandSender implements CommandSender {
 
 	@Override
-	public PermissionAttachment addAttachment(Plugin arg0) {
+	public PermissionAttachment addAttachment(final Plugin arg0) {
 		throw new NotImplementedException();
 	}
 
 	@Override
-	public PermissionAttachment addAttachment(Plugin arg0, int arg1) {
+	public PermissionAttachment addAttachment(final Plugin arg0, final int arg1) {
 		throw new NotImplementedException();
 	}
 
 	@Override
-	public PermissionAttachment addAttachment(Plugin arg0, String arg1, boolean arg2) {
+	public PermissionAttachment addAttachment(final Plugin arg0, final String arg1, final boolean arg2) {
 		throw new NotImplementedException();
 	}
 
 	@Override
-	public PermissionAttachment addAttachment(Plugin arg0, String arg1, boolean arg2, int arg3) {
+	public PermissionAttachment addAttachment(final Plugin arg0, final String arg1, final boolean arg2, final int arg3) {
 		throw new NotImplementedException();
 	}
 
@@ -38,22 +38,22 @@ public class TestCommandSender implements CommandSender {
 	}
 
 	@Override
-	public boolean hasPermission(String arg0) {
+	public boolean hasPermission(final String arg0) {
 		return true;
 	}
 
 	@Override
-	public boolean hasPermission(Permission arg0) {
+	public boolean hasPermission(final Permission arg0) {
 		return true;
 	}
 
 	@Override
-	public boolean isPermissionSet(String arg0) {
+	public boolean isPermissionSet(final String arg0) {
 		throw new NotImplementedException();
 	}
 
 	@Override
-	public boolean isPermissionSet(Permission arg0) {
+	public boolean isPermissionSet(final Permission arg0) {
 		throw new NotImplementedException();
 	}
 
@@ -63,7 +63,7 @@ public class TestCommandSender implements CommandSender {
 	}
 
 	@Override
-	public void removeAttachment(PermissionAttachment arg0) {
+	public void removeAttachment(final PermissionAttachment arg0) {
 		throw new NotImplementedException();
 	}
 
@@ -73,7 +73,7 @@ public class TestCommandSender implements CommandSender {
 	}
 
 	@Override
-	public void setOp(boolean arg0) {
+	public void setOp(final boolean arg0) {
 		throw new NotImplementedException();
 	}
 
@@ -88,12 +88,12 @@ public class TestCommandSender implements CommandSender {
 	}
 
 	@Override
-	public void sendMessage(String arg0) {
+	public void sendMessage(final String arg0) {
 		System.out.println(arg0);
 	}
 
 	@Override
-	public void sendMessage(String[] arg0) {
+	public void sendMessage(final String[] arg0) {
 		throw new NotImplementedException();
 	}
 

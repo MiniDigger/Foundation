@@ -6,16 +6,16 @@ import me.MiniDigger.Foundation.handler.config.ConfigAdapterNotApplicable;
 public class IntegerConfigAdapter extends ConfigAdapter {
 
 	@Override
-	public Object fromString(String source) {
+	public Object fromString(final String source) {
 		try {
 			return Integer.parseInt(source);
-		} catch (NumberFormatException ex) {
+		} catch (final NumberFormatException ex) {
 			throw new ConfigAdapterNotApplicable(this, source);
 		}
 	}
 
 	@Override
-	public String toString(Object source) {
+	public String toString(final Object source) {
 		if (source instanceof Integer) {
 			return ((Integer) source).intValue() + "";
 		}

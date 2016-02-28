@@ -19,13 +19,13 @@ public class FoundationTestSuite {
 	@BeforeClass
 	public static void setup() throws Exception {
 		FoundationMain.setTestMode(true);
-		Field f = FoundationMain.class.getDeclaredField("handler");
+		final Field f = FoundationMain.class.getDeclaredField("handler");
 		f.setAccessible(true);
-		for (FoundationHandler h : (FoundationHandler[]) f.get(null)) {
+		for (final FoundationHandler h : (FoundationHandler[]) f.get(null)) {
 			System.out.println("--------- Load " + h.getName() + " ------------");
 			h.onLoad();
 		}
-		for (FoundationHandler h : (FoundationHandler[]) f.get(null)) {
+		for (final FoundationHandler h : (FoundationHandler[]) f.get(null)) {
 			System.out.println("--------- Enable " + h.getName() + " ------------");
 			h.onEnable();
 		}
@@ -33,9 +33,9 @@ public class FoundationTestSuite {
 
 	@AfterClass
 	public static void tearDown() throws Exception {
-		Field f = FoundationMain.class.getDeclaredField("handler");
+		final Field f = FoundationMain.class.getDeclaredField("handler");
 		f.setAccessible(true);
-		for (FoundationHandler h : (FoundationHandler[]) f.get(null)) {
+		for (final FoundationHandler h : (FoundationHandler[]) f.get(null)) {
 			System.out.println("--------- Disable " + h.getName() + " ------------");
 			h.onDisable();
 		}

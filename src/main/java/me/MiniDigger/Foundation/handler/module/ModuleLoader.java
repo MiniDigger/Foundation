@@ -23,17 +23,17 @@ public class ModuleLoader extends URLClassLoader {
 	private Module module;
 	private ModuleDescription desc;
 
-	public ModuleLoader(final ClassLoader parent, final URL url) throws InvalidModuleException, MalformedURLException,
-			NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+	public ModuleLoader(final ClassLoader parent, final URL url)
+			throws InvalidModuleException, MalformedURLException, NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		super(new URL[] { url }, parent);
 
 		String main = null;
-		Field f = ClassLoader.class.getDeclaredField("classes");
+		final Field f = ClassLoader.class.getDeclaredField("classes");
 		f.setAccessible(true);
 
-		Reflections reflections = new Reflections("");
-		Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(ModuleDescription.class);
-		for (Class<?> clazz : annotated) {
+		final Reflections reflections = new Reflections("");
+		final Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(ModuleDescription.class);
+		for (final Class<?> clazz : annotated) {
 			if (clazz.isAnnotationPresent(ModuleDescription.class)) {
 				main = clazz.getName();
 				desc = clazz.getAnnotation(ModuleDescription.class);

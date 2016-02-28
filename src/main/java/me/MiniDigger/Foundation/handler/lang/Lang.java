@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import me.MiniDigger.Foundation.FoundationMain;
 
 public class Lang {
-	public static String translate(LangKey key, LangType lang, String... args) {
+	public static String translate(final LangKey key, final LangType lang, final String... args) {
 		String raw = LangHandler.getInstance().getLangStorage(lang).get(key);
 
 		for (int i = 0; i < args.length; i++) {
@@ -16,19 +16,19 @@ public class Lang {
 		return raw;
 	}
 
-	public static String translate(LangKey key, String... args) {
+	public static String translate(final LangKey key, final String... args) {
 		return translate(key, LangHandler.getInstance().getDefaultLang(), args);
 	}
 
-	public static void msg(CommandSender sender, LangKey key, LangType lang, String... args) {
+	public static void msg(final CommandSender sender, final LangKey key, final LangType lang, final String... args) {
 		sender.sendMessage(translate(key, lang, args));
 	}
 
-	public static void msg(CommandSender sender, LangKey key, String... args) {
+	public static void msg(final CommandSender sender, final LangKey key, final String... args) {
 		sender.sendMessage(translate(key, args));
 	}
 
-	public static void console(LangKey key, String... args) {
+	public static void console(final LangKey key, final String... args) {
 		if (FoundationMain.isInTestMode()) {
 			msg(FoundationMain.getTestCommandSender(), key, args);
 		} else {
@@ -36,7 +36,7 @@ public class Lang {
 		}
 	}
 
-	public static void console(LangKey key, LangType lang, String... args) {
+	public static void console(final LangKey key, final LangType lang, final String... args) {
 		if (FoundationMain.isInTestMode()) {
 			msg(FoundationMain.getTestCommandSender(), key, lang, args);
 		} else {
@@ -44,7 +44,7 @@ public class Lang {
 		}
 	}
 
-	public static void error(Exception e) {
+	public static void error(final Exception e) {
 		e.printStackTrace();
 		// TODO better error handeling
 	}

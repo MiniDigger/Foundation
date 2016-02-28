@@ -9,14 +9,14 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class LangStorage {
-	private Map<LangKey, String> data = new HashMap<>();
+	private final Map<LangKey, String> data = new HashMap<>();
 	private LangType lang;
 
-	public LangStorage(LangType defaultLang) {
-		this.lang = defaultLang;
+	public LangStorage(final LangType defaultLang) {
+		lang = defaultLang;
 	}
 
-	public String get(LangKey key) {
+	public String get(final LangKey key) {
 		if (!data.containsKey(key)) {
 			return key.getDefaultValue();
 		} else {
@@ -24,18 +24,18 @@ public class LangStorage {
 		}
 	}
 
-	public boolean load(File f) {
+	public boolean load(final File f) {
 		try (Scanner sc = new Scanner(f);) {
 			lang = new LangType(f.getName().replace(".flang", ""));
 
 			while (sc.hasNextLine()) {
-				String l = sc.nextLine();
+				final String l = sc.nextLine();
 				if (!l.contains("=") || l.startsWith("#")) {
 					continue;
 				}
 
-				String[] line = l.split("=");
-				String key = line[0];
+				final String[] line = l.split("=");
+				final String key = line[0];
 				String value = "";
 				if (line.length > 2) {
 					value = l.replace(key + "=", "");
@@ -43,19 +43,19 @@ public class LangStorage {
 					value = line[1];
 				}
 
-				LangKey langKey = LangKey.valueOf(key);
+				final LangKey langKey = LangKey.valueOf(key);
 				data.put(langKey, value);
 			}
 
 			Lang.console(LangKey.Lang.LOAD_STORAGE, data.size() + "", lang.key);
 			return true;
-		} catch (IOException ex) {
+		} catch (final IOException ex) {
 			Lang.error(ex);
 			return false;
 		}
 	}
 
-	public boolean save(File f) {
+	public boolean save(final File f) {
 		try (PrintWriter pw = new PrintWriter(new FileWriter(f));) {
 			pw.println("########################");
 			pw.println("# Foundation Lang File #");
@@ -64,7 +64,7 @@ public class LangStorage {
 			pw.println("########################");
 
 			String oldParentName = "";
-			for (LangKey key : LangKey.values()) {
+			for (final LangKey key : LangKey.values()) {
 				// comment before new section
 				if (!key.getParentName().equals(oldParentName)) {
 					oldParentName = key.getParentName();
@@ -78,15 +78,15 @@ public class LangStorage {
 				}
 
 				// write
-				String k = key.getFullName();
-				String v = get(key);
+				final String k = key.getFullName();
+				final String v = get(key);
 				pw.println(k + "=" + v);
 			}
 
 			pw.flush();
 			pw.close();
 			return true;
-		} catch (IOException ex) {
+		} catch (final IOException ex) {
 			Lang.error(ex);
 			return false;
 		}
@@ -96,7 +96,7 @@ public class LangStorage {
 		return lang;
 	}
 
-	public void setLang(LangType lang) {
+	public void setLang(final LangType lang) {
 		this.lang = lang;
 	}
 }

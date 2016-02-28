@@ -17,54 +17,57 @@ public class ModuleTest {
 
 	@Test
 	public void test() {
-		//TODO add unit tests for hotswapping
+		// TODO add unit tests for hotswapping
 	}
 
 	@BeforeClass
 	public static void generateJar() throws Exception {
-		String c = "target\\test-classes\\me\\MiniDigger\\Foundation\\handler\\module";
-		Manifest manifest = new Manifest();
+		final String c = "target\\test-classes\\me\\MiniDigger\\Foundation\\handler\\module";
+		final Manifest manifest = new Manifest();
 		manifest.getMainAttributes().put(Attributes.Name.MANIFEST_VERSION, "1.0");
-		JarOutputStream target = new JarOutputStream(
-				new FileOutputStream("src\\test\\resources\\testModuleFolder\\testmodule.jar"), manifest);
+		final JarOutputStream target = new JarOutputStream(new FileOutputStream("src\\test\\resources\\testModuleFolder\\testmodule.jar"), manifest);
 		add(new File(c), target);
 		target.close();
 	}
 
-	private static void add(File source, JarOutputStream target) throws IOException {
+	private static void add(final File source, final JarOutputStream target) throws IOException {
 		BufferedInputStream in = null;
 		try {
 			String name = source.getPath().replace("\\", "/").replace("target/test-classes/", "");
 			if (source.isDirectory()) {
 				if (!name.isEmpty()) {
-					if (!name.endsWith("/"))
+					if (!name.endsWith("/")) {
 						name += "/";
-					JarEntry entry = new JarEntry(name);
+					}
+					final JarEntry entry = new JarEntry(name);
 					entry.setTime(source.lastModified());
 					target.putNextEntry(entry);
 					target.closeEntry();
 				}
-				for (File nestedFile : source.listFiles())
+				for (final File nestedFile : source.listFiles()) {
 					add(nestedFile, target);
+				}
 				return;
 			}
 
-			JarEntry entry = new JarEntry(name);
+			final JarEntry entry = new JarEntry(name);
 			entry.setTime(source.lastModified());
 			target.putNextEntry(entry);
 			in = new BufferedInputStream(new FileInputStream(source));
 
-			byte[] buffer = new byte[1024];
+			final byte[] buffer = new byte[1024];
 			while (true) {
-				int count = in.read(buffer);
-				if (count == -1)
+				final int count = in.read(buffer);
+				if (count == -1) {
 					break;
+				}
 				target.write(buffer, 0, count);
 			}
 			target.closeEntry();
 		} finally {
-			if (in != null)
+			if (in != null) {
 				in.close();
+			}
 		}
 	}
 }

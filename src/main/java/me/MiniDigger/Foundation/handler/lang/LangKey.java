@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LangKey {
-	private String parentName;
-	private String name;
-	private String defaultValue;
+	private final String parentName;
+	private final String name;
+	private final String defaultValue;
 
-	public LangKey(String parentName, String name, String defaultValue) {
+	public LangKey(final String parentName, final String name, final String defaultValue) {
 		this.parentName = parentName;
 		this.name = name;
 		this.defaultValue = defaultValue;
@@ -35,7 +35,7 @@ public class LangKey {
 		public static final LangKey ENABLE = new LangKey(NAME, "enable", "Enableing %0% by MiniDigger");
 
 		public static List<LangKey> values() {
-			List<LangKey> result = new ArrayList<LangKey>();
+			final List<LangKey> result = new ArrayList<LangKey>();
 
 			result.add(ENABLE);
 
@@ -45,13 +45,12 @@ public class LangKey {
 
 	public static class Lang {
 		public static final String NAME = "lang";
-		public static final LangKey COULD_NOT_LOAD_FILE = new LangKey(NAME, "could_not_load_file",
-				"Could not load langfile %0%!");
+		public static final LangKey COULD_NOT_LOAD_FILE = new LangKey(NAME, "could_not_load_file", "Could not load langfile %0%!");
 		public static final LangKey LOAD = new LangKey(NAME, "load", "Loaded %0% langs");
 		public static final LangKey LOAD_STORAGE = new LangKey(NAME, "load_storage", "Loaded %0% keys in lang %1%");
 
 		public static List<LangKey> values() {
-			List<LangKey> result = new ArrayList<LangKey>();
+			final List<LangKey> result = new ArrayList<LangKey>();
 
 			result.add(LOAD);
 
@@ -66,23 +65,20 @@ public class LangKey {
 				"Unable to register tab completer %0%. A tab completer is already registered for that command!");
 		public static final LangKey HELP_TITLE = new LangKey(NAME, "help_title", "All commands for %0%");
 		public static final LangKey HELP_BODY = new LangKey(NAME, "help_body", "Below is a list of all %0% commands:");
-		public static final LangKey COMPLETER_UNEXPECTED_RETURN_TYPE = new LangKey(NAME,
-				"completer_unexpected_return_type", "Unable to register tab completer %0%. Unexpected return type");
-		public static final LangKey COMPLETER_UNEXPECTED_METHOD_ARGS = new LangKey(NAME,
-				"completer_unexpected_method_args",
+		public static final LangKey COMPLETER_UNEXPECTED_RETURN_TYPE = new LangKey(NAME, "completer_unexpected_return_type",
+				"Unable to register tab completer %0%. Unexpected return type");
+		public static final LangKey COMPLETER_UNEXPECTED_METHOD_ARGS = new LangKey(NAME, "completer_unexpected_method_args",
 				"Unable to register tab completer %0%. Unexpected method arguments");
-		public static final LangKey COMMAND_UNEXPECTED_METHOD_ARGS = new LangKey(NAME,
-				"completer_unexpected_method_args", "Unable to register command %0%. Unexpected method arguments");
-		public static final LangKey COMMAND_NOT_HANDLED = new LangKey(NAME, "command_not_handled",
-				"%0% is not handled! Oh noes!");
-		public static final LangKey ONLY_INGAME = new LangKey(NAME, "only_ingame",
-				"This command is only performable in game");
+		public static final LangKey COMMAND_UNEXPECTED_METHOD_ARGS = new LangKey(NAME, "completer_unexpected_method_args",
+				"Unable to register command %0%. Unexpected method arguments");
+		public static final LangKey COMMAND_NOT_HANDLED = new LangKey(NAME, "command_not_handled", "%0% is not handled! Oh noes!");
+		public static final LangKey ONLY_INGAME = new LangKey(NAME, "only_ingame", "This command is only performable in game");
 		public static final LangKey COMMAND_UNREGISTER = new LangKey(NAME, "completer_unregister",
 				"Unable to unregister command %0%. Unexpected method arguments");
 		public static final LangKey RELOCATION = new LangKey(NAME, "relocation", "Relocation: Moving %0% to %1%");
 
 		public static List<LangKey> values() {
-			List<LangKey> result = new ArrayList<>();
+			final List<LangKey> result = new ArrayList<>();
 
 			result.add(COMPLETER_ALREADY_REGISTERED);
 			result.add(HELP_TITLE);
@@ -103,15 +99,12 @@ public class LangKey {
 		public static final String NAME = "module";
 
 		public static final LangKey ERROR_NO_MAIN = new LangKey(NAME, "error_no_main", "Cannot find main class %0%");
-		public static final LangKey ERROR_NO_EXTEND = new LangKey(NAME, "error_no_extend",
-				"Main class %0% does not extend Module");
-		public static final LangKey ERROR_NO_CONSTRUCTOR = new LangKey(NAME, "error_no_constructor",
-				"No public constructor in main class %0%");
-		public static final LangKey ERROR_ABNORMAL_TYPE = new LangKey(NAME, "error_abnormal_type",
-				"Abnormal plugin type for main class %0%");
+		public static final LangKey ERROR_NO_EXTEND = new LangKey(NAME, "error_no_extend", "Main class %0% does not extend Module");
+		public static final LangKey ERROR_NO_CONSTRUCTOR = new LangKey(NAME, "error_no_constructor", "No public constructor in main class %0%");
+		public static final LangKey ERROR_ABNORMAL_TYPE = new LangKey(NAME, "error_abnormal_type", "Abnormal plugin type for main class %0%");
 
 		public static List<LangKey> values() {
-			List<LangKey> result = new ArrayList<>();
+			final List<LangKey> result = new ArrayList<>();
 
 			result.add(ERROR_NO_MAIN);
 			result.add(ERROR_NO_EXTEND);
@@ -126,11 +119,10 @@ public class LangKey {
 		public static final String NAME = "test";
 
 		public static final LangKey TEST = new LangKey(NAME, "test", "Just a jUnit test %0%");
-		public static final LangKey TEST_VARS = new LangKey(NAME, "test_vars",
-				"Just %0% a %1% bunch %2% of %3% vars %4%");
+		public static final LangKey TEST_VARS = new LangKey(NAME, "test_vars", "Just %0% a %1% bunch %2% of %3% vars %4%");
 
 		public static List<LangKey> values() {
-			List<LangKey> result = new ArrayList<>();
+			final List<LangKey> result = new ArrayList<>();
 
 			result.add(TEST);
 			result.add(TEST_VARS);
@@ -140,7 +132,7 @@ public class LangKey {
 	}
 
 	public static List<LangKey> values() {
-		List<LangKey> result = new ArrayList<LangKey>();
+		final List<LangKey> result = new ArrayList<LangKey>();
 
 		result.addAll(Foundation.values());
 		result.addAll(Lang.values());
@@ -151,8 +143,8 @@ public class LangKey {
 		return result;
 	}
 
-	public static LangKey valueOf(String key) {
-		for (LangKey k : values()) {
+	public static LangKey valueOf(final String key) {
+		for (final LangKey k : values()) {
 			if (k.getFullName().equals(key)) {
 				return k;
 			}

@@ -6,12 +6,12 @@ import me.MiniDigger.Foundation.handler.config.ConfigAdapterNotApplicable;
 public class StringConfigAdapter extends ConfigAdapter {
 
 	@Override
-	public Object fromString(String source) {
+	public Object fromString(final String source) {
 		return source;
 	}
 
 	@Override
-	public String toString(Object source) {
+	public String toString(final Object source) {
 		if (source instanceof String) {
 			return (String) source;
 		}

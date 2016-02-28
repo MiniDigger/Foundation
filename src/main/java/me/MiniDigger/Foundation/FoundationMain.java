@@ -15,8 +15,8 @@ import me.MiniDigger.Foundation.handler.module.ModuleHandler;
 public class FoundationMain extends JavaPlugin {
 	private static FoundationMain INSTANCE;
 	private static boolean testMode;
-	private static final FoundationHandler[] handler = { LangHandler.getInstance(), CommandHandler.getInstance(),
-			ConfigHandler.getInstance(), ModuleHandler.getInstance() };
+	private static final FoundationHandler[] handler = { LangHandler.getInstance(), CommandHandler.getInstance(), ConfigHandler.getInstance(),
+			ModuleHandler.getInstance() };
 
 	@Override
 	public void onLoad() {
@@ -35,22 +35,22 @@ public class FoundationMain extends JavaPlugin {
 	}
 
 	private void initHandler() {
-		for (FoundationHandler h : handler) {
+		for (final FoundationHandler h : handler) {
 			h.onLoad();
 		}
-		for (FoundationHandler h : handler) {
+		for (final FoundationHandler h : handler) {
 			h.onEnable();
 		}
 	}
 
 	private void disableHandler() {
-		for (FoundationHandler h : handler) {
+		for (final FoundationHandler h : handler) {
 			h.onDisable();
 		}
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
 		return super.onCommand(sender, command, label, args);
 	}
 
@@ -62,7 +62,7 @@ public class FoundationMain extends JavaPlugin {
 		return testMode;
 	}
 
-	public static void setTestMode(boolean testMode) {
+	public static void setTestMode(final boolean testMode) {
 		FoundationMain.testMode = testMode;
 	}
 

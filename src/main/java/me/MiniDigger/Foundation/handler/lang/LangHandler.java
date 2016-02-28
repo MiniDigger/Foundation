@@ -12,9 +12,9 @@ public class LangHandler extends FoundationHandler {
 
 	private LangType defaultLang = new LangType("en_US");
 
-	private LangStorage defaultLangStorage = new LangStorage(defaultLang);
-	private List<LangStorage> langStorages = new ArrayList<>();
-	private List<String> langs = new ArrayList<>();
+	private final LangStorage defaultLangStorage = new LangStorage(defaultLang);
+	private final List<LangStorage> langStorages = new ArrayList<>();
+	private final List<String> langs = new ArrayList<>();
 
 	// default value only for unit tests
 	private File langFolder = new File("src\\test\\resources\\testLangFolder");
@@ -26,11 +26,11 @@ public class LangHandler extends FoundationHandler {
 	}
 
 	public void loadLangs() {
-		for (File f : langFolder.listFiles((dir, name) -> {
+		for (final File f : langFolder.listFiles((dir, name) -> {
 			return name.endsWith(".flang");
 		})) {
-			String lang = f.getName().replace(".flang", "");
-			LangStorage storage = new LangStorage(new LangType(lang));
+			final String lang = f.getName().replace(".flang", "");
+			final LangStorage storage = new LangStorage(new LangType(lang));
 			if (storage.load(f)) {
 				langs.add(lang);
 				langStorages.add(storage);
@@ -42,12 +42,12 @@ public class LangHandler extends FoundationHandler {
 		Lang.console(LangKey.Lang.LOAD, langStorages.size() + "");
 	}
 
-	public LangStorage getLangStorage(LangType lang) {
+	public LangStorage getLangStorage(final LangType lang) {
 		if (!isLangLoaded(lang)) {
 			return defaultLangStorage;
 		}
 
-		for (LangStorage storage : langStorages) {
+		for (final LangStorage storage : langStorages) {
 			if (storage.getLang().key.equals(lang.key)) {
 				return storage;
 			}
@@ -63,15 +63,15 @@ public class LangHandler extends FoundationHandler {
 		return defaultLang;
 	}
 
-	public void setDefaultLang(LangType defaultLang) {
+	public void setDefaultLang(final LangType defaultLang) {
 		this.defaultLang = defaultLang;
 	}
 
-	public boolean isLangLoaded(LangType lang) {
+	public boolean isLangLoaded(final LangType lang) {
 		return langs.contains(lang.key);
 	}
 
-	public void setLangFolder(File langFolder) {
+	public void setLangFolder(final File langFolder) {
 		this.langFolder = langFolder;
 	}
 

@@ -61,7 +61,7 @@
 						</goals>
 						<configuration>
 							<target>
-								<copy file="./target/Foundation.jar" todir="../Servers/plugins" />
+								<copy file="./target/Foundation-*.jar" todir="../Servers/plugins" />
 							</target>
 						</configuration>
 					</execution>

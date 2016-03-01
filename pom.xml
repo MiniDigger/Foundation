@@ -75,8 +75,6 @@
 				<configuration>
 					<verbose>true</verbose>
 					<fork>true</fork>
-					<executable>Z:\Programme\JDK 8u51\bin\javac
-					</executable>
 					<compilerVersion>1.8</compilerVersion>
 					<source>1.8</source>
 					<target>1.8</target>

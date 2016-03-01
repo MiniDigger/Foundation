@@ -23,6 +23,7 @@ import org.bukkit.help.HelpTopic;
 import org.bukkit.help.HelpTopicComparator;
 import org.bukkit.help.IndexHelpTopic;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginBase;
 import org.bukkit.plugin.SimplePluginManager;
 
 import me.MiniDigger.Foundation.FoundationMain;
@@ -42,7 +43,7 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 	private static CommandHandler INSTANCE;
 
 	private final Map<String, Entry<Method, Object>> commandMap = new HashMap<String, Entry<Method, Object>>();
-	private CommandMap map;
+	private CommandMap map = new SimpleCommandMap(null);
 	private Plugin plugin;
 	// TODO Add a config option for relocations
 	private final Map<String, String> relocations = new HashMap<>();
@@ -118,7 +119,7 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 				final Object methodObject = commandMap.get(cmdLabel).getValue();
 				final Command command = method.getAnnotation(Command.class);
 				if (command.permission() != "" && !sender.hasPermission(command.permission())) {
-					// TODO find a better way to do this
+					// TODO find a better way to do this, we need translating!
 					sender.sendMessage(command.noPerm());
 					return true;
 				}
@@ -246,7 +247,7 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 	}
 
 	public void unregister(final String command) {
-		if (plugin.getServer().getPluginManager() instanceof SimplePluginManager) {
+		if (plugin.getServer() != null && plugin.getServer().getPluginManager() instanceof SimplePluginManager) {
 			final SimplePluginManager manager = (SimplePluginManager) plugin.getServer().getPluginManager();
 			try {
 				final Field field = SimplePluginManager.class.getDeclaredField("commandMap");
@@ -266,6 +267,7 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 				Lang.error(e);
 			}
 		}
+		commandMap.remove(command);
 	}
 
 	public void unregisterCommands(final Object obj) {
@@ -289,5 +291,14 @@ public class CommandHandler extends FoundationHandler implements CommandExecutor
 			INSTANCE = new CommandHandler();
 		}
 		return INSTANCE;
+	}
+
+	/**
+	 * JUNIT TEST
+	 *
+	 * @param plugin2
+	 */
+	public void setPlugin(PluginBase plugin2) {
+		this.plugin = plugin2;
 	}
 }

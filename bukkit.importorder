@@ -1,0 +1,9 @@
+#Organize Import Order
+#Mon Feb 29 14:47:30 CET 2016
+6=net.minecraft
+5=org.bukkit
+4=me.MiniDigger
+3=com
+2=org
+1=javax
+0=java

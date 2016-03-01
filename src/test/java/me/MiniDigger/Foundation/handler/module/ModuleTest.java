@@ -1,5 +1,7 @@
 package me.MiniDigger.Foundation.handler.module;
 
+import static org.mockito.Mockito.times;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,13 +13,27 @@ import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
+@RunWith(PowerMockRunner.class)
+
+@PrepareForTest(TestModule.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ModuleTest {
-
+	// TODO add unit tests for hotswapping
 	@Test
 	public void test() {
-		// TODO add unit tests for hotswapping
+		PowerMockito.mockStatic(TestModule.class);
+		ModuleHandler.getInstance().loadModules();
+		ModuleHandler.getInstance().enableModules();
+		PowerMockito.verifyStatic(times(2));
+		TestModule.test();
 	}
 
 	@BeforeClass
@@ -69,5 +85,10 @@ public class ModuleTest {
 				in.close();
 			}
 		}
+	}
+
+	@BeforeClass
+	public static void setup() {
+		System.out.println("================= Module Test ==================");
 	}
 }

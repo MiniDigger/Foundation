@@ -20,7 +20,7 @@ public class LangTest {
 		System.out.println("===================== Lang Test ======================");
 		LangHandler.getInstance().setLangFolder(new File("src\\test\\resources\\testLangFolder"));
 	}
-	
+
 	@Test
 	public void test1Save() {
 		LangHandler.getInstance().getDefaultLangStorage().save(new File("src\\test\\resources\\testLangFolder\\en_US.flang"));

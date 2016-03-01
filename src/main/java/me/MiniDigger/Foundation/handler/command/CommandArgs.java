@@ -73,7 +73,7 @@ public class CommandArgs {
 	public String[] getArgs() {
 		return args;
 	}
-	
+
 	/**
 	 * Gets the argument at the specified index
 	 *
@@ -93,7 +93,7 @@ public class CommandArgs {
 	public int length() {
 		return args.length;
 	}
-	
+
 	public boolean isPlayer() {
 		return sender instanceof Player;
 	}

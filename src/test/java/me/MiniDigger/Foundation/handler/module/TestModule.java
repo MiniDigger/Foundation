@@ -11,6 +11,8 @@ public class TestModule extends Module {
 	@Override
 	public boolean onEnable() {
 		System.out.println("I AM ENABLEING");
+		TestModule.test();
+		TestModule.test();
 		return true;
 	}
 
@@ -18,5 +20,9 @@ public class TestModule extends Module {
 	public boolean onDisable() {
 		System.out.println("I AM DISABLEING");
 		return true;
+	}
+
+	public static void test() {
+		System.out.println("test got calledr");
 	}
 }

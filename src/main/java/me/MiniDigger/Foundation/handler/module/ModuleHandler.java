@@ -30,18 +30,26 @@ public class ModuleHandler extends FoundationHandler {
 
 	@Override
 	public boolean onEnable() {
-		for (final Module m : modules) {
-			m.onEnable();
-		}
+		enableModules();
 		return true;
 	}
 
 	@Override
 	public boolean onDisable() {
+		disableModules();
+		return true;
+	}
+
+	public void enableModules() {
+		for (final Module m : modules) {
+			m.onEnable();
+		}
+	}
+
+	public void disableModules() {
 		for (final Module m : modules) {
 			m.onDisable();
 		}
-		return true;
 	}
 
 	public void loadModules() {

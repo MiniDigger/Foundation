@@ -12,8 +12,11 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import me.MiniDigger.Foundation.config.SampleConfig;
 import me.MiniDigger.Foundation.handler.FoundationHandler;
+import me.MiniDigger.Foundation.handler.config.adapters.BoolConfigAdapter;
 import me.MiniDigger.Foundation.handler.config.adapters.BooleanConfigAdapter;
+import me.MiniDigger.Foundation.handler.config.adapters.IntConfigAdapter;
 import me.MiniDigger.Foundation.handler.config.adapters.IntegerConfigAdapter;
+import me.MiniDigger.Foundation.handler.config.adapters.LocationConfigAdapter;
 import me.MiniDigger.Foundation.handler.config.adapters.StringConfigAdapter;
 import me.MiniDigger.Foundation.handler.lang.Lang;
 
@@ -36,9 +39,15 @@ public class ConfigHandler extends FoundationHandler {
 	}
 
 	private void initAdapter() {
+		System.out.println("init");
 		registerAdapter(new StringConfigAdapter());
 		registerAdapter(new BooleanConfigAdapter());
+		registerAdapter(new BoolConfigAdapter());
 		registerAdapter(new IntegerConfigAdapter());
+		registerAdapter(new IntConfigAdapter());
+		registerAdapter(new LocationConfigAdapter());
+
+		defaultAdapter = new StringConfigAdapter();
 	}
 
 	public void registerAdapter(final ConfigAdapter adapter) {
@@ -46,6 +55,10 @@ public class ConfigHandler extends FoundationHandler {
 	}
 
 	public Config loadConfig(final Class<? extends Config> config, final File file) {
+		if (adapters.size() == 0) {
+			initAdapter();
+		}
+
 		Config c;
 		try {
 			c = config.newInstance();
@@ -65,6 +78,10 @@ public class ConfigHandler extends FoundationHandler {
 		for (final Field f : config.getFields()) {
 			if (f.isAnnotationPresent(Storeable.class)) {
 				final ConfigAdapter a = getAdapter(f.getType());
+				if (a == null) {
+					System.out.println("no adapter for field " + f.getName());
+					continue;
+				}
 				try {
 					f.set(c, a.fromString(fc.getString(f.getName())));
 				} catch (IllegalArgumentException | IllegalAccessException e) {
@@ -76,11 +93,19 @@ public class ConfigHandler extends FoundationHandler {
 	}
 
 	public void saveConfig(final SampleConfig config, final File file) {
+		if (adapters.size() == 0) {
+			initAdapter();
+		}
+
 		final FileConfiguration fc = YamlConfiguration.loadConfiguration(file);
 
 		for (final Field f : config.getClass().getFields()) {
 			if (f.isAnnotationPresent(Storeable.class)) {
 				final ConfigAdapter a = getAdapter(f.getType());
+				if (a == null) {
+					System.out.println("no adapter for field " + f.getName());
+					continue;
+				}
 				try {
 					fc.set(f.getName(), a.toString(f.get(config)));
 				} catch (IllegalArgumentException | IllegalAccessException e) {

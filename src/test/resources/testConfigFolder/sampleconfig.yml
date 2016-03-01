@@ -1,3 +1,6 @@
 string: Hello from the other side
 bool: 'true'
 integer: '9000'
+test: '900'
+test2: 'false'
+loc: w=welt,x=89.2,y=281.5,z=2.3,p=5.5,yaw=25.3

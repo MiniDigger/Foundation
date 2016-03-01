@@ -15,7 +15,7 @@
 	</scm>
 
 	<build>
-		<finalName>Foundation</finalName>
+		<finalName>Foundation-${project.version}-b${buildNumber}</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>

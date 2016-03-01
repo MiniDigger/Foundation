@@ -4,3 +4,6 @@
 .project
 /.settings/
 /src/test/resources/
+/src/test/resources/testConfigFolder
+/src/test/resources/testLangFolder
+/src/test/resources/testModuleFolder

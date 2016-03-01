@@ -1,4 +1,4 @@
-# Foundation [![Build Status](https://travis-ci.org/MiniDigger/Foundation.svg?branch=master)](https://travis-ci.org/MiniDigger/Foundation)
+# Foundation [![Build Status](https://drone.io/github.com/MiniDigger/Foundation/status.png)](https://drone.io/github.com/MiniDigger/Foundation/latest)
 A fully modular spigot plugin framework
 
 WIP

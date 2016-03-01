@@ -10,7 +10,6 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import me.MiniDigger.Foundation.config.SampleConfig;
 import me.MiniDigger.Foundation.handler.FoundationHandler;
 import me.MiniDigger.Foundation.handler.config.adapters.BooleanConfigAdapter;
 import me.MiniDigger.Foundation.handler.config.adapters.IntegerConfigAdapter;
@@ -75,7 +74,7 @@ public class ConfigHandler extends FoundationHandler {
 		return c;
 	}
 
-	public void saveConfig(final SampleConfig config, final File file) {
+	public void saveConfig(final Config config, final File file) {
 		final FileConfiguration fc = YamlConfiguration.loadConfiguration(file);
 
 		for (final Field f : config.getClass().getFields()) {

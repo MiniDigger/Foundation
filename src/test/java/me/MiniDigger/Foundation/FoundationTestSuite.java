@@ -5,11 +5,11 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import me.MiniDigger.Foundation.config.ConfigTest;
 import me.MiniDigger.Foundation.handler.FoundationHandler;
 import me.MiniDigger.Foundation.handler.command.CommandHandler;
 import me.MiniDigger.Foundation.handler.command.CommandTest;
 import me.MiniDigger.Foundation.handler.config.ConfigHandler;
+import me.MiniDigger.Foundation.handler.config.ConfigTest;
 import me.MiniDigger.Foundation.handler.lang.LangHandler;
 import me.MiniDigger.Foundation.handler.lang.LangTest;
 import me.MiniDigger.Foundation.handler.module.ModuleHandler;

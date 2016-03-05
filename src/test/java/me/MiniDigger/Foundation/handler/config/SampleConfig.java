@@ -1,4 +1,4 @@
-package me.MiniDigger.Foundation.config;
+package me.MiniDigger.Foundation.handler.config;
 
 import org.bukkit.Location;
 

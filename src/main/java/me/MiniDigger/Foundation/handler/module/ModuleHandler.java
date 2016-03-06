@@ -44,7 +44,7 @@ public class ModuleHandler extends FoundationHandler {
 	
 	public void disableModules() {
 		for (final Module m : modules) {
-			m.onDisable();
+			disable(m.getDescription().name());
 		}
 	}
 	
@@ -52,22 +52,51 @@ public class ModuleHandler extends FoundationHandler {
 		for (final File f : moduleFolder.listFiles((dir, name) -> {
 			return name.endsWith(".jar");
 		})) {
-			try {
-				final ModuleLoader loader = new ModuleLoader(getClass().getClassLoader(), f.toURI().toURL());
-				loaders.put(loader.getDescription().name(), loader);
-				modules.add(loader.getModule());
-				loader.getModule().onLoad();
-			} catch (MalformedURLException | InvalidModuleException | NoSuchFieldException | SecurityException | IllegalArgumentException
-					| IllegalAccessException e) {
-				Lang.error(e);
+			enable(f);
+		}
+	}
+	
+	public void enable(String name) {
+		enable(new File(moduleFolder, name + ".jar"));
+	}
+	
+	public void enable(File f) {
+		try {
+			final ModuleLoader loader = new ModuleLoader(getClass().getClassLoader(), f.toURI().toURL());
+			loaders.put(loader.getDescription().name(), loader);
+			modules.add(loader.getModule());
+			loader.getModule().setDescription(loader.getDescription());
+			loader.getModule().onLoad();
+		} catch (MalformedURLException | InvalidModuleException | NoSuchFieldException | SecurityException | IllegalArgumentException
+				| IllegalAccessException e) {
+			Lang.error(e);
+		}
+	}
+	
+	public void disable(String name) {
+		Module m = getModule(name);
+		if (m != null) {
+			m.onDisable();
+			modules.remove(m);
+			ModuleLoader l = loaders.remove(name);
+			l.getClasses().clear();
+		}
+	}
+	
+	public Module getModule(String name) {
+		for (final Module m : modules) {
+			if (m.getDescription().name().equals(name)) {
+				return m;
 			}
 		}
+		return null;
 	}
 	
 	public Class<?> getClassByName(final String name) {
 		Class<?> cachedClass = classes.get(name);
 		
 		if (cachedClass != null) {
+			System.out.println(name + " was cached");
 			return cachedClass;
 		} else {
 			for (final String current : loaders.keySet()) {
@@ -78,6 +107,7 @@ public class ModuleHandler extends FoundationHandler {
 				} catch (final ClassNotFoundException e) {
 				}
 				if (cachedClass != null) {
+					System.out.println(name + " was cached in " + current);
 					return cachedClass;
 				}
 			}

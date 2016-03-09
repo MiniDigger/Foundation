@@ -1,72 +1,131 @@
 package me.MiniDigger.Foundation.handler.command;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
-/**
- * Command Framework - Command <br>
- * The command annotation used to designate methods as commands. All methods
- * should have a single CommandArgs argument
- *
- * @author minnymin3
- *
- */
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Command {
+import org.bukkit.command.CommandSender;
 
-	/**
-	 * The name of the command. If it is a sub command then its values would be
-	 * separated by periods. ie. a command that would be a subcommand of test
-	 * would be 'test.subcommandname'
-	 *
-	 * @return
-	 */
-	public String name();
+public class Command {
 
-	/**
-	 * Gets the required permission of the command
-	 *
-	 * @return
-	 */
-	public String permission() default "";
+	private String name;
+	private boolean console;
+	private String usage;
+	private String permission;
+	private Method method;
+	private Object obj;
 
-	/**
-	 * The message sent to the player when they do not have permission to
-	 * execute it
-	 *
-	 * @return
-	 */
-	public String noPerm() default "You do not have permission to perform that action";
+	private List<CommandAdapter> adapter = new ArrayList<>();
 
-	/**
-	 * A list of alternate names that the command is executed under. See
-	 * name() for details on how names work
-	 *
-	 * @return
-	 */
-	public String[] aliases() default {};
+	public void setName(String name) {
+		this.name = name;
+	}
 
-	/**
-	 * The description that will appear in /help of the command
-	 *
-	 * @return
-	 */
-	public String description() default "";
+	public void setConsole(boolean console) {
+		this.console = console;
+	}
 
-	/**
-	 * The usage that will appear in /help (commandname)
-	 *
-	 * @return
-	 */
-	public String usage() default "";
+	public void setUsage(String usage) {
+		this.usage = usage;
+	}
 
-	/**
-	 * Whether or not the command is available to players only
-	 *
-	 * @return
-	 */
-	public boolean inGameOnly() default false;
+	public void setPermission(String permission) {
+		this.permission = permission;
+	}
+
+	public void setMethod(Method m) {
+		this.method = m;
+	}
+
+	public void setObject(Object obj) {
+		this.obj = obj;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public boolean isConsole() {
+		return console;
+	}
+
+	public String getUsage() {
+		return usage;
+	}
+
+	public String getPermission() {
+		return permission;
+	}
+
+	public Method getMethod() {
+		return method;
+	}
+
+	public Object getObj() {
+		return obj;
+	}
+
+	public void execute(CommandSender sender, String input) {
+		// get rid of the cmd name
+		String[] n = name.split(Pattern.quote("."));
+		StringBuilder b = new StringBuilder();
+		for (String s : n) {
+			b.append(s);
+			b.append(" ");
+		}
+		input = input.replaceFirst(b.toString(), "");
+
+		String consume = input;
+		List<Object> obj = new ArrayList<>();
+		obj.add(sender);
+		for (int i = 0; i < adapter.size(); i++) {
+			CommandAdapter a = adapter.get(i);
+			consume = consume.trim();
+			try {
+				consume = a.consome(consume, i);
+			} catch (CommandArgsNotMatchedException e) {
+				sender.sendMessage("Wrong arguments: " + e.getMessage());
+				return;
+			}
+			obj.add(a.value());
+		}
+
+		try {
+			method.invoke(this.obj, obj.toArray());
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void register(List<CommandAdapter> registeredAdapters) throws CommandWrongParamsException {
+		boolean foundSender = false;
+		for (Class<?> c : method.getParameterTypes()) {
+			if (c.equals(CommandSender.class)) {
+				foundSender = true;
+				continue;
+			}
+
+			CommandAdapter a = getAdapter(c, registeredAdapters);
+			if (a == null) {
+				throw new CommandWrongParamsException("No config adaper found for param " + c.getCanonicalName() + "!");
+			}
+			adapter.add(a);
+		}
+
+		if (!foundSender) {
+			throw new CommandWrongParamsException("No sender param found!");
+		}
+	}
+
+	private CommandAdapter getAdapter(Class<?> c, List<CommandAdapter> registeredAdapters) {
+		for (CommandAdapter a : registeredAdapters) {
+			if (a.matches(c)) {
+				return a;
+			}
+		}
+		return null;
+	}
+
 }

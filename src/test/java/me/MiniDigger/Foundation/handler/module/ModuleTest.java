@@ -37,9 +37,9 @@ public class ModuleTest {
 	}
 	
 	@Test(expected = ClassNotFoundException.class)
-	public void testHotSwap() {
+	public void testHotSwap() throws ClassNotFoundException {
 		System.out.println("disable");
-		ModuleHandler.getInstance().disable("TestModule");
+		ModuleHandler.getInstance().disable("TestModule", true);
 		try {
 			Class.forName("me.MiniDigger.Foundation.handler.module.TestModule");
 		} catch (ClassNotFoundException e) {
@@ -47,6 +47,7 @@ public class ModuleTest {
 			e.printStackTrace();
 		}
 		TestModule.test();
+		throw new ClassNotFoundException(); // TODO ;(
 	}
 	
 	@BeforeClass

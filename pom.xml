@@ -47,13 +47,64 @@
 					<shortRevisionLength>5</shortRevisionLength>
 				</configuration>
 			</plugin>
+			<!-- Stop old Server -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.4.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<executable>stop.bat</executable>
+					<workingDirectory>../Servers/</workingDirectory>
+				</configuration>
+			</plugin>
 			<!-- Copy the final jar -->
-			<!-- <plugin> Currently disabled due to ant not finding the file TODO 
-				Do we realy need this? <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-antrun-plugin</artifactId> 
-				<version>1.8</version> <executions> <execution> <id>copy-dependencies</id> 
-				<phase>package</phase> <goals> <goal>run</goal> </goals> <configuration> 
-				<target> <copy file="./target/Foundation-*.jar" todir="../Servers/plugins" 
-				/> </target> </configuration> </execution> </executions> </plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<copy todir="../Servers/plugins">
+									<fileset dir="./target">
+										<include name="Foundation-*.jar" />
+									</fileset>
+								</copy>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!--start new one -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.4.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<executable>start.bat</executable>
+					<workingDirectory>../Servers/</workingDirectory>
+				</configuration>
+			</plugin>
 			<!-- Compiler: Java8 all the way -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -98,6 +149,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot-api</artifactId>
+			<version>1.9-R0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot</artifactId>
 			<version>1.9-SNAPSHOT</version>
 		</dependency>
@@ -130,6 +186,13 @@
 	</dependencies>
 
 	<repositories>
+		<repository>
+			<id>spigot-snapshot-repo</id>
+			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
 		<repository>
 			<id>local-repo</id>
 			<url>file:${foundationProjectFolder}/repo</url>

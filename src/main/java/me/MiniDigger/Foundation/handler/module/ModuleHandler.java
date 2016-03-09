@@ -44,8 +44,9 @@ public class ModuleHandler extends FoundationHandler {
 	
 	public void disableModules() {
 		for (final Module m : modules) {
-			disable(m.getDescription().name());
+			disable(m.getDescription().name(), false);
 		}
+		modules.clear();
 	}
 	
 	public void loadModules() {
@@ -73,13 +74,15 @@ public class ModuleHandler extends FoundationHandler {
 		}
 	}
 	
-	public void disable(String name) {
+	public void disable(String name, boolean remove) {
 		Module m = getModule(name);
 		if (m != null) {
 			m.onDisable();
-			modules.remove(m);
 			ModuleLoader l = loaders.remove(name);
 			l.getClasses().clear();
+			if (remove) {
+				modules.remove(m);
+			}
 		}
 	}
 	

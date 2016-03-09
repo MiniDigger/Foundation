@@ -1,5 +1,7 @@
 package me.MiniDigger.Foundation;
 
+import java.io.File;
+
 import me.MiniDigger.Foundation.handler.FoundationHandler;
 import me.MiniDigger.Foundation.handler.command.CommandHandler;
 import me.MiniDigger.Foundation.handler.config.ConfigHandler;
@@ -12,8 +14,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class FoundationMain extends JavaPlugin {
 	private static FoundationMain INSTANCE;
 	private static boolean testMode;
-	private static final FoundationHandler[] handler = { LangHandler.getInstance(), CommandHandler.getInstance(), ConfigHandler.getInstance(),
-			ModuleHandler.getInstance() };
+	private static final FoundationHandler[] handler = { LangHandler.getInstance(), ConfigHandler.getInstance(), ModuleHandler.getInstance(),
+			CommandHandler.getInstance() };
 			
 	@Override
 	public void onLoad() {
@@ -23,6 +25,7 @@ public class FoundationMain extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		Lang.console(LangKey.Foundation.ENABLE, getDescription().getVersion());
+		LangHandler.getInstance().setLangFolder(new File(getDataFolder(), "lang"));
 		initHandler();
 	}
 	
@@ -48,7 +51,13 @@ public class FoundationMain extends JavaPlugin {
 	
 	@Override
 	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
-		return super.onCommand(sender, command, label, args);
+		StringBuilder b = new StringBuilder();
+		b.append(label);
+		for (String s : args) {
+			b.append(s);
+		}
+		CommandHandler.getInstance().execute(sender, b.toString());
+		return true;
 	}
 	
 	public static FoundationMain getInstance() {

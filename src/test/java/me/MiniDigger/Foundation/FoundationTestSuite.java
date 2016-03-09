@@ -7,7 +7,6 @@ import org.junit.runners.Suite;
 
 import me.MiniDigger.Foundation.handler.FoundationHandler;
 import me.MiniDigger.Foundation.handler.command.CommandHandler;
-import me.MiniDigger.Foundation.handler.command.CommandTest;
 import me.MiniDigger.Foundation.handler.config.ConfigHandler;
 import me.MiniDigger.Foundation.handler.config.ConfigTest;
 import me.MiniDigger.Foundation.handler.lang.LangHandler;
@@ -16,11 +15,11 @@ import me.MiniDigger.Foundation.handler.module.ModuleHandler;
 import me.MiniDigger.Foundation.handler.module.ModuleTest;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ LangTest.class, CommandTest.class, ConfigTest.class, ModuleTest.class })
+@Suite.SuiteClasses({ LangTest.class, ConfigTest.class, ModuleTest.class, me.MiniDigger.Foundation.handler.command.CommandTest.class })
 public class FoundationTestSuite {
 
-	private static final FoundationHandler[] handler = { LangHandler.getInstance(), CommandHandler.getInstance(), ConfigHandler.getInstance(),
-			ModuleHandler.getInstance() };
+	private static final FoundationHandler[] handler = { LangHandler.getInstance(), ConfigHandler.getInstance(), ModuleHandler.getInstance(),
+			CommandHandler.getInstance() };
 
 	@BeforeClass
 	public static void setup() throws Exception {

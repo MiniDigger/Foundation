@@ -7,8 +7,8 @@ import me.MiniDigger.Foundation.handler.config.ConfigAdapterNotApplicable;
 
 public class BooleanConfigAdapter extends ConfigAdapter {
 
-	protected final String[] trueStrings = { "true", "yes", "yeah", "y", "t", "ja" };
-	protected final String[] falseStrings = { "false", "no", "nope", "n", "f", "nein" };
+	protected static final String[] trueStrings = { "true", "yes", "yeah", "y", "t", "ja" };
+	protected static final String[] falseStrings = { "false", "no", "nope", "n", "f", "nein" };
 
 	@Override
 	public Object fromString(final String source) {

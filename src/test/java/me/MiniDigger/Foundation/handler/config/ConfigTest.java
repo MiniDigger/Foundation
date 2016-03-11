@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.util.Arrays;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -15,9 +16,6 @@ import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import me.MiniDigger.Foundation.handler.config.Config;
-import me.MiniDigger.Foundation.handler.config.ConfigHandler;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Bukkit.class)
@@ -47,6 +45,9 @@ public class ConfigTest {
 		config.test = 900;
 		config.bool = true;
 		config.loc = new Location(Bukkit.getWorld("welt"), 89.2, 281.5, 2.3, 25.3f, 5.5f);
+		config.boolList = Arrays.asList(new Boolean[] { true, false, true, false });
+		config.stringList = Arrays.asList(new String[] { "I", "am", "a", "test" });
+		config.intList = Arrays.asList(new Integer[] { 1, 2, 3, 4, 5 });
 
 		ConfigHandler.getInstance().saveConfig(config, file);
 
@@ -59,6 +60,9 @@ public class ConfigTest {
 			assertEquals(900, sc.test);
 			assertEquals(true, sc.test2);
 			assertEquals(new Location(Bukkit.getWorld("welt"), 89.2, 281.5, 2.3, 25.3f, 5.5f), sc.loc);
+			assertEquals(Arrays.asList(new Boolean[] { true, false, true, false }), sc.boolList);
+			assertEquals(Arrays.asList(new String[] { "I", "am", "a", "test" }), sc.stringList);
+			assertEquals(Arrays.asList(new Integer[] { 1, 2, 3, 4, 5 }), sc.intList);
 		} else {
 			fail("Loaded config was not instanceof saved config");
 		}

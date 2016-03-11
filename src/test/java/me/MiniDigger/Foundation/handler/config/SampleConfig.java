@@ -1,5 +1,7 @@
 package me.MiniDigger.Foundation.handler.config;
 
+import java.util.List;
+
 import org.bukkit.Location;
 
 import me.MiniDigger.Foundation.handler.config.Config;
@@ -19,5 +21,14 @@ public class SampleConfig extends Config {
 	public boolean test2;
 	@Storeable
 	public Location loc;
+	@Storeable
+	@ConfigList(clazz = String.class)
+	public List<String> stringList;
+	@Storeable
+	@ConfigList(clazz = Boolean.class)
+	public List<Boolean> boolList;
+	@Storeable
+	@ConfigList(clazz = Integer.class)
+	public List<Integer> intList;
 
 }

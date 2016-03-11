@@ -166,6 +166,12 @@
 			<version>0.9.9-RC2</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>net.jodah</groupId>
+			<artifactId>typetools</artifactId>
+			<version>0.4.4</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<repositories>

@@ -9,9 +9,12 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.mockito.Mockito;
 
 import me.MiniDigger.Foundation.FoundationMain;
 import me.MiniDigger.Foundation.api.FoundationAPI;
+import me.MiniDigger.Foundation.handler.module.Module;
+import me.MiniDigger.Foundation.handler.module.ModuleDescription;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class LangTest {
@@ -93,7 +96,12 @@ public class LangTest {
 
 	@Test
 	public void testAdditionalLangKeyProvider() {
-		FoundationAPI.registerLangKeys(new TestLangKeyProvider());
+		Module m = Mockito.mock(Module.class);
+		ModuleDescription desc = Mockito.mock(ModuleDescription.class);
+		Mockito.when(desc.name()).thenReturn("TestModule");
+		Mockito.when(m.getDescription()).thenReturn(desc);
+
+		FoundationAPI.registerLangKeys(new TestLangKeyProvider(), m);
 		assertEquals("Testing", Lang.translate(TestLangKeyProvider.TEST));
 	}
 }

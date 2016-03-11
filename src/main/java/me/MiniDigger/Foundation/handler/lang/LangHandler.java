@@ -92,4 +92,8 @@ public class LangHandler extends FoundationHandler {
 		defaultLangStorage.load(new File(langFolder, defaultLang.key + ".flang"));
 		defaultLangStorage.save(new File(langFolder, defaultLang.key + ".flang"));
 	}
+
+	public void removeAdditionalLangKeys(List<LangKey> values) {
+		additionalLangKeys.removeAll(values);
+	}
 }

@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class LangStorage {
 	private final Map<LangKey, String> data = new HashMap<>();
@@ -43,7 +44,15 @@ public class LangStorage {
 					value = line[1];
 				}
 
-				final LangKey langKey = LangKey.valueOf(key);
+				LangKey langKey = LangKey.valueOf(key);
+				if (langKey == null) {
+					if (key.contains(".")) {
+						String[] k = key.split(Pattern.quote("."));
+						langKey = new LangKey(k[0], k[1], value);
+					} else {
+						continue;
+					}
+				}
 				data.put(langKey, value);
 			}
 

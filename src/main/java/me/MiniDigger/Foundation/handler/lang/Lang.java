@@ -6,6 +6,9 @@ import org.bukkit.command.CommandSender;
 import me.MiniDigger.Foundation.FoundationMain;
 
 public class Lang {
+
+	//TODO Whats about fancy messages?!
+
 	public static String translate(final LangKey key, final LangType lang, final String... args) {
 		String raw = LangHandler.getInstance().getLangStorage(lang).get(key);
 

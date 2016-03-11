@@ -18,6 +18,7 @@ public class LangHandler extends FoundationHandler {
 
 	// default value only for unit tests
 	private File langFolder = new File("src\\test\\resources\\testLangFolder");
+	private List<LangKey> additionalLangKeys = new ArrayList<>();
 
 	@Override
 	public boolean onLoad() {
@@ -80,5 +81,15 @@ public class LangHandler extends FoundationHandler {
 			INSTANCE = new LangHandler();
 		}
 		return INSTANCE;
+	}
+
+	public List<LangKey> getAdditionalLangKeys() {
+		return additionalLangKeys;
+	}
+
+	public void addAdditionalLangKeys(List<LangKey> list) {
+		additionalLangKeys.addAll(list);
+		defaultLangStorage.load(new File(langFolder, defaultLang.key + ".flang"));
+		defaultLangStorage.save(new File(langFolder, defaultLang.key + ".flang"));
 	}
 }

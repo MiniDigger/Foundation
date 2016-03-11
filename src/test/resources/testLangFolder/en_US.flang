@@ -19,7 +19,7 @@ command.help_title=All commands for %0%
 command.help_body=Below is a list of all %0% commands:
 command.completer_unexpected_return_type=Unable to register tab completer %0%. Unexpected return type
 command.completer_unexpected_method_args=Unable to register tab completer %0%. Unexpected method arguments
-command.completer_unexpected_method_args=Unable to register command %0%. Unexpected method arguments
+command.command_unexpected_method_args=Unable to register command %0%. Unexpected method arguments
 command.command_not_handled=%0% is not handled! Oh noes!
 command.only_ingame=This command is only performable in game
 command.completer_unregister=Unable to unregister command %0%. Unexpected method arguments
@@ -36,3 +36,7 @@ module.error_abnormal_type=Abnormal plugin type for main class %0%
 #########
 test.test=Just a jUnit test %0%
 test.test_vars=Just %0% a %1% bunch %2% of %3% vars %4%
+########################
+#  testlangkeyprovider #
+########################
+testlangkeyprovider.test=Testing

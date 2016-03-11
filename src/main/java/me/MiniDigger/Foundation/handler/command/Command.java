@@ -14,6 +14,7 @@ public class Command {
 	private boolean console;
 	private String usage;
 	private String permission;
+	private String description;
 	private Method method;
 	private Object obj;
 
@@ -33,6 +34,10 @@ public class Command {
 
 	public void setPermission(String permission) {
 		this.permission = permission;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public void setMethod(Method m) {
@@ -57,6 +62,10 @@ public class Command {
 
 	public String getPermission() {
 		return permission;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 
 	public Method getMethod() {
@@ -127,5 +136,4 @@ public class Command {
 		}
 		return null;
 	}
-
 }

@@ -22,7 +22,7 @@ public class CommandTest {
 		handler.register(new CommandTest());
 	}
 
-	@CommandDescription(name = "test1", permission = "test1")
+	@CommandDescription(name = "test1", permission = "test1", description = "test1")
 	public void testTest1(CommandSender sender, String s) {
 		sender.sendMessage(s);
 	}
@@ -35,7 +35,7 @@ public class CommandTest {
 		Mockito.verify(sender).sendMessage("TEST_STRING");
 	}
 
-	@CommandDescription(name = "test.test2", permission = "test2")
+	@CommandDescription(name = "test.test2", permission = "test2", description = "test2")
 	public void testTest2(CommandSender sender, String s) {
 		sender.sendMessage(s + "2");
 	}
@@ -48,7 +48,7 @@ public class CommandTest {
 		Mockito.verify(sender).sendMessage("TEST_STRING_22");
 	}
 
-	@CommandDescription(name = "test.test2.test3", permission = "test3")
+	@CommandDescription(name = "test.test2.test3", permission = "test3", description = "test3")
 	public void testTest3(CommandSender sender, String s) {
 		sender.sendMessage(s + "3");
 	}
@@ -61,7 +61,7 @@ public class CommandTest {
 		Mockito.verify(sender).sendMessage("TEST_STRING_33");
 	}
 
-	@CommandDescription(name = "int", permission = "int")
+	@CommandDescription(name = "int", permission = "int", description = "int")
 	public void testInt(CommandSender sender, Integer i) {
 		sender.sendMessage(i + 1 + "");
 	}
@@ -74,7 +74,7 @@ public class CommandTest {
 		Mockito.verify(sender).sendMessage("246");
 	}
 
-	@CommandDescription(name = "negint", permission = "negint")
+	@CommandDescription(name = "negint", permission = "negint", description = "negint")
 	public void testNegInt(CommandSender sender, Integer i) {
 		sender.sendMessage(i + 1 + "");
 	}
@@ -87,7 +87,7 @@ public class CommandTest {
 		Mockito.verify(sender).sendMessage("-244");
 	}
 
-	@CommandDescription(name = "largeint", permission = "largeint")
+	@CommandDescription(name = "largeint", permission = "largeint", description = "largeint")
 	public void testLargeInt(CommandSender sender, Integer i) {
 		sender.sendMessage(i + 1 + "");
 	}
@@ -97,10 +97,11 @@ public class CommandTest {
 		CommandSender sender = Mockito.mock(CommandSender.class);
 		Mockito.when(sender.hasPermission("largeint")).thenReturn(true);
 		handler.execute(sender, "largeint 10000000000000000");
-		Mockito.verify(sender).sendMessage("Wrong arguments: ArgIndex: 0, expected:Integer, got: 10000000000000000 (is integer to long?)");
+		Mockito.verify(sender).sendMessage(
+				"Wrong arguments: ArgIndex: 0, expected:Integer, got: 10000000000000000 (is integer to long?)");
 	}
 
-	@CommandDescription(name = "double", permission = "double")
+	@CommandDescription(name = "double", permission = "double", description = "double")
 	public void testDouble(CommandSender sender, Double i) {
 		sender.sendMessage(i + 1 + "");
 	}
@@ -134,7 +135,8 @@ public class CommandTest {
 		CommandSender sender = Mockito.mock(CommandSender.class);
 		Mockito.when(sender.hasPermission("double")).thenReturn(true);
 		handler.execute(sender, "double 200,3");
-		Mockito.verify(sender).sendMessage("Wrong arguments: ArgIndex: 0, expected:Double, got: 200,3 (only '.' allowed!)");
+		Mockito.verify(sender)
+				.sendMessage("Wrong arguments: ArgIndex: 0, expected:Double, got: 200,3 (only '.' allowed!)");
 	}
 
 	@Test
@@ -145,7 +147,7 @@ public class CommandTest {
 		Mockito.verify(sender).sendMessage("-244.0");
 	}
 
-	@CommandDescription(name = "double.many", permission = "double.many")
+	@CommandDescription(name = "double.many", permission = "double.many", description = "manydoubles")
 	public void testManyDouble(CommandSender sender, Double i1, Double i2, Double i3, Double i4, Double i5) {
 		sender.sendMessage(i1 + " " + i2 + " " + i3 + " " + i4 + " " + i5);
 	}
@@ -174,7 +176,7 @@ public class CommandTest {
 		Mockito.verify(sender).sendMessage("TEST STRING");
 	}
 
-	@CommandDescription(name = "boolean", permission = "boolean")
+	@CommandDescription(name = "boolean", permission = "boolean", description = "boolean")
 	public void testBoolean(CommandSender sender, Boolean i) {
 		sender.sendMessage(i + "");
 	}

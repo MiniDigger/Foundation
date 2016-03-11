@@ -15,4 +15,6 @@ public @interface CommandDescription {
 	public String permission();
 
 	public boolean console() default true;
+
+	public String description();
 }

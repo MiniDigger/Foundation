@@ -64,11 +64,14 @@ public class CommandHandler extends FoundationHandler {
 		command.setConsole(desc.console());
 		command.setUsage(desc.usage());
 		command.setPermission(desc.permission());
+		command.setDescription(desc.description());
 		command.setMethod(m);
 		command.setObject(obj);
 		command.register(adapter);
 		commands.add(command);
 	}
+
+	// TODO Do something with the descripton of commands (helpmap)
 
 	public void execute(CommandSender sender, String input) {
 		String[] args = input.split(" ");

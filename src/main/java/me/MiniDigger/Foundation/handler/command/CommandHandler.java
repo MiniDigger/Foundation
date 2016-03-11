@@ -13,8 +13,8 @@ import me.MiniDigger.Foundation.handler.command.adapters.StringAdapter;
 import org.bukkit.command.CommandSender;
 
 public class CommandHandler extends FoundationHandler {
-	private List<Command> commands = new ArrayList<>();
-	private List<CommandAdapter> adapter = new ArrayList<>();
+	private final List<Command> commands = new ArrayList<>();
+	private final List<CommandAdapter> adapter = new ArrayList<>();
 
 	private static CommandHandler INSTANCE;
 
@@ -34,32 +34,32 @@ public class CommandHandler extends FoundationHandler {
 		return super.onDisable();
 	}
 
-	public void register(CommandAdapter adp) {
+	public void register(final CommandAdapter adp) {
 		adapter.add(adp);
 	}
 
-	public void register(Object obj) throws CommandWrongParamsException {
-		for (Method m : obj.getClass().getMethods()) {
+	public void register(final Object obj) throws CommandWrongParamsException {
+		for (final Method m : obj.getClass().getMethods()) {
 			if (m.isAnnotationPresent(CommandDescription.class)) {
 				register(m, m.getAnnotation(CommandDescription.class), obj);
 			}
 		}
 	}
 
-	public void unregister(Object obj) {
-		for (Method m : obj.getClass().getMethods()) {
+	public void unregister(final Object obj) {
+		for (final Method m : obj.getClass().getMethods()) {
 			if (m.isAnnotationPresent(CommandDescription.class)) {
 				unregister(m.getAnnotation(CommandDescription.class));
 			}
 		}
 	}
 
-	public void unregister(CommandDescription desc) {
+	public void unregister(final CommandDescription desc) {
 		commands.remove(getCommand(desc.name()));
 	}
 
-	public void register(Method m, CommandDescription desc, Object obj) throws CommandWrongParamsException {
-		Command command = new Command();
+	public void register(final Method m, final CommandDescription desc, final Object obj) throws CommandWrongParamsException {
+		final Command command = new Command();
 		command.setName(desc.name());
 		command.setConsole(desc.console());
 		command.setUsage(desc.usage());
@@ -73,16 +73,16 @@ public class CommandHandler extends FoundationHandler {
 
 	// TODO Do something with the descripton of commands (helpmap)
 
-	public void execute(CommandSender sender, String input) {
-		String[] args = input.split(" ");
+	public void execute(final CommandSender sender, final String input) {
+		final String[] args = input.split(" ");
 		for (int i = args.length; i > 0; i--) {
 			final StringBuffer buffer = new StringBuffer();
 			buffer.append(args[0]);
 			for (int x = 1; x < i; x++) {
 				buffer.append("." + args[x].toLowerCase());
 			}
-			String cmd = buffer.toString();
-			Command command = getCommand(cmd);
+			final String cmd = buffer.toString();
+			final Command command = getCommand(cmd);
 			if (command == null) {
 				continue;
 			}
@@ -98,8 +98,8 @@ public class CommandHandler extends FoundationHandler {
 		sender.sendMessage("not handled! " + input);
 	}
 
-	private Command getCommand(String cmd) {
-		for (Command c : commands) {
+	private Command getCommand(final String cmd) {
+		for (final Command c : commands) {
 			if (c.getName().equalsIgnoreCase(cmd)) {
 				return c;
 			}

@@ -11,8 +11,8 @@ public class BooleanAdapter extends CommandAdapter {
 	public static final String[] falseStrings = { "false", "no", "nope", "n", "f", "nein" };
 
 	@Override
-	public String consome(String consume, int index) throws CommandArgsNotMatchedException {
-		String val = consume.split(" ")[0];
+	public String consome(final String consume, final int index) throws CommandArgsNotMatchedException {
+		final String val = consume.split(" ")[0];
 		if (val == null || val.length() == 0) {
 			throw new CommandArgsNotMatchedException(index, "Boolean", consume);
 		}
@@ -28,7 +28,7 @@ public class BooleanAdapter extends CommandAdapter {
 	}
 
 	@Override
-	public boolean matches(Class<?> c) {
+	public boolean matches(final Class<?> c) {
 		return Boolean.class.equals(c);
 	}
 

@@ -1,10 +1,10 @@
 package me.MiniDigger.Foundation.handler.config.adapters;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-
 import me.MiniDigger.Foundation.handler.config.ConfigAdapter;
 import me.MiniDigger.Foundation.handler.config.ConfigAdapterNotApplicable;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 
 public class LocationConfigAdapter extends ConfigAdapter {
 

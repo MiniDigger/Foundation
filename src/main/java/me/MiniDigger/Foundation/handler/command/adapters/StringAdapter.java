@@ -6,7 +6,7 @@ import me.MiniDigger.Foundation.handler.command.CommandArgsNotMatchedException;
 public class StringAdapter extends CommandAdapter {
 
 	@Override
-	public String consome(String consume, int index) throws CommandArgsNotMatchedException {
+	public String consome(final String consume, final int index) throws CommandArgsNotMatchedException {
 		String val = "";
 		if (consume.startsWith("\"")) {
 			val = consume.substring(1, consume.indexOf("\"", 1));
@@ -21,7 +21,7 @@ public class StringAdapter extends CommandAdapter {
 	}
 
 	@Override
-	public boolean matches(Class<?> c) {
+	public boolean matches(final Class<?> c) {
 		return c.equals(String.class);
 	}
 

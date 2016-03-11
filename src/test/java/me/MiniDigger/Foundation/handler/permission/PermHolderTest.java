@@ -1,21 +1,22 @@
 package me.MiniDigger.Foundation.handler.permission;
 
-import org.junit.Test;
 import static org.junit.Assert.*;
+
+import org.junit.Test;
 
 public class PermHolderTest {
 	@Test
 	public void testHas() {
-		PermHolder holder = new PermHolder();
+		final PermHolder holder = new PermHolder();
 
-		PermNode n1 = PermNode.fromString("parent.child1.child2.child3");
-		PermNode n2 = PermNode.fromString("parent.child1.child2");
-		PermNode n3 = PermNode.fromString("parent.child1");
-		PermNode n4 = PermNode.fromString("parent");
-		PermNode n5 = PermNode.fromString("parent2.child1.child2.child3");
-		PermNode n6 = PermNode.fromString("parent2.child1.child2");
-		PermNode n7 = PermNode.fromString("parent2.child1");
-		PermNode n8 = PermNode.fromString("parent2");
+		final PermNode n1 = PermNode.fromString("parent.child1.child2.child3");
+		final PermNode n2 = PermNode.fromString("parent.child1.child2");
+		final PermNode n3 = PermNode.fromString("parent.child1");
+		final PermNode n4 = PermNode.fromString("parent");
+		final PermNode n5 = PermNode.fromString("parent2.child1.child2.child3");
+		final PermNode n6 = PermNode.fromString("parent2.child1.child2");
+		final PermNode n7 = PermNode.fromString("parent2.child1");
+		final PermNode n8 = PermNode.fromString("parent2");
 
 		holder.add(n1);
 		holder.add(n2);
@@ -38,13 +39,13 @@ public class PermHolderTest {
 
 	@Test
 	public void testHasWithAsterix() {
-		PermHolder holder = new PermHolder();
+		final PermHolder holder = new PermHolder();
 
-		PermNode n1 = PermNode.fromString("parent.child1.child2.child3");
-		PermNode n2 = PermNode.fromString("parent.child1.child2.*");
-		PermNode n3 = PermNode.fromString("parent.child1.child2.child3.*");
-		PermNode n4 = PermNode.fromString("parent.child1.child3");
-		PermNode n5 = PermNode.fromString("parent2.child1.child2.child3");
+		final PermNode n1 = PermNode.fromString("parent.child1.child2.child3");
+		final PermNode n2 = PermNode.fromString("parent.child1.child2.*");
+		final PermNode n3 = PermNode.fromString("parent.child1.child2.child3.*");
+		final PermNode n4 = PermNode.fromString("parent.child1.child3");
+		final PermNode n5 = PermNode.fromString("parent2.child1.child2.child3");
 
 		holder.add(n2);
 		assertTrue(holder.has(n1));

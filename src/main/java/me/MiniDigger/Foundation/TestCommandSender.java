@@ -3,6 +3,7 @@ package me.MiniDigger.Foundation;
 import java.util.Set;
 
 import org.apache.commons.lang.NotImplementedException;
+
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;

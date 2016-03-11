@@ -18,33 +18,33 @@ public class Command {
 	private Method method;
 	private Object obj;
 
-	private List<CommandAdapter> adapter = new ArrayList<>();
+	private final List<CommandAdapter> adapter = new ArrayList<>();
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
-	public void setConsole(boolean console) {
+	public void setConsole(final boolean console) {
 		this.console = console;
 	}
 
-	public void setUsage(String usage) {
+	public void setUsage(final String usage) {
 		this.usage = usage;
 	}
 
-	public void setPermission(String permission) {
+	public void setPermission(final String permission) {
 		this.permission = permission;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
-	public void setMethod(Method m) {
-		this.method = m;
+	public void setMethod(final Method m) {
+		method = m;
 	}
 
-	public void setObject(Object obj) {
+	public void setObject(final Object obj) {
 		this.obj = obj;
 	}
 
@@ -76,25 +76,25 @@ public class Command {
 		return obj;
 	}
 
-	public void execute(CommandSender sender, String input) {
+	public void execute(final CommandSender sender, String input) {
 		// get rid of the cmd name
-		String[] n = name.split(Pattern.quote("."));
-		StringBuilder b = new StringBuilder();
-		for (String s : n) {
+		final String[] n = name.split(Pattern.quote("."));
+		final StringBuilder b = new StringBuilder();
+		for (final String s : n) {
 			b.append(s);
 			b.append(" ");
 		}
 		input = input.replaceFirst(b.toString(), "");
 
 		String consume = input;
-		List<Object> obj = new ArrayList<>();
+		final List<Object> obj = new ArrayList<>();
 		obj.add(sender);
 		for (int i = 0; i < adapter.size(); i++) {
-			CommandAdapter a = adapter.get(i);
+			final CommandAdapter a = adapter.get(i);
 			consume = consume.trim();
 			try {
 				consume = a.consome(consume, i);
-			} catch (CommandArgsNotMatchedException e) {
+			} catch (final CommandArgsNotMatchedException e) {
 				sender.sendMessage("Wrong arguments: " + e.getMessage());
 				return;
 			}
@@ -108,15 +108,15 @@ public class Command {
 		}
 	}
 
-	public void register(List<CommandAdapter> registeredAdapters) throws CommandWrongParamsException {
+	public void register(final List<CommandAdapter> registeredAdapters) throws CommandWrongParamsException {
 		boolean foundSender = false;
-		for (Class<?> c : method.getParameterTypes()) {
+		for (final Class<?> c : method.getParameterTypes()) {
 			if (c.equals(CommandSender.class)) {
 				foundSender = true;
 				continue;
 			}
 
-			CommandAdapter a = getAdapter(c, registeredAdapters);
+			final CommandAdapter a = getAdapter(c, registeredAdapters);
 			if (a == null) {
 				throw new CommandWrongParamsException("No config adaper found for param " + c.getCanonicalName() + "!");
 			}
@@ -128,8 +128,8 @@ public class Command {
 		}
 	}
 
-	private CommandAdapter getAdapter(Class<?> c, List<CommandAdapter> registeredAdapters) {
-		for (CommandAdapter a : registeredAdapters) {
+	private CommandAdapter getAdapter(final Class<?> c, final List<CommandAdapter> registeredAdapters) {
+		for (final CommandAdapter a : registeredAdapters) {
 			if (a.matches(c)) {
 				return a;
 			}

@@ -47,7 +47,7 @@ public class LangStorage {
 				LangKey langKey = LangKey.valueOf(key);
 				if (langKey == null) {
 					if (key.contains(".")) {
-						String[] k = key.split(Pattern.quote("."));
+						final String[] k = key.split(Pattern.quote("."));
 						langKey = new LangKey(k[0], k[1], value);
 					} else {
 						continue;

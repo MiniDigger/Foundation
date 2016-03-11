@@ -1,6 +1,6 @@
 package me.MiniDigger.Foundation.handler.module;
 
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.*;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -35,21 +35,21 @@ public class ModuleTest {
 		PowerMockito.verifyStatic(times(2));
 		TestModule.test();
 	}
-	
+
 	@Test(expected = ClassNotFoundException.class)
 	public void testHotSwap() throws ClassNotFoundException {
 		System.out.println("disable");
 		ModuleHandler.getInstance().disable("TestModule", true);
 		try {
 			Class.forName("me.MiniDigger.Foundation.handler.module.TestModule");
-		} catch (ClassNotFoundException e) {
+		} catch (final ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		TestModule.test();
 		throw new ClassNotFoundException(); // TODO ;(
 	}
-	
+
 	@BeforeClass
 	public static void generateJar() throws Exception {
 		final String c = "target\\test-classes\\me\\MiniDigger\\Foundation\\handler\\module";
@@ -59,7 +59,7 @@ public class ModuleTest {
 		add(new File(c), target);
 		target.close();
 	}
-	
+
 	private static void add(final File source, final JarOutputStream target) throws IOException {
 		BufferedInputStream in = null;
 		try {
@@ -79,12 +79,12 @@ public class ModuleTest {
 				}
 				return;
 			}
-			
+
 			final JarEntry entry = new JarEntry(name);
 			entry.setTime(source.lastModified());
 			target.putNextEntry(entry);
 			in = new BufferedInputStream(new FileInputStream(source));
-			
+
 			final byte[] buffer = new byte[1024];
 			while (true) {
 				final int count = in.read(buffer);
@@ -100,7 +100,7 @@ public class ModuleTest {
 			}
 		}
 	}
-	
+
 	@BeforeClass
 	public static void setup() {
 		System.out.println("================= Module Test ==================");

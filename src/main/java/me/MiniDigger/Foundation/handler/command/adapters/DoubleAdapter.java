@@ -6,12 +6,12 @@ import me.MiniDigger.Foundation.handler.command.CommandArgsNotMatchedException;
 public class DoubleAdapter extends CommandAdapter {
 
 	@Override
-	public String consome(String consume, int index) throws CommandArgsNotMatchedException {
+	public String consome(String consume, final int index) throws CommandArgsNotMatchedException {
 		double d = 0;
 		try {
 			d = Double.parseDouble(consume.split(" ")[0]);
 			o = d;
-		} catch (NumberFormatException e) {
+		} catch (final NumberFormatException e) {
 			if (consume.contains(",")) {
 				consume += " (only '.' allowed!)";
 			}
@@ -21,7 +21,7 @@ public class DoubleAdapter extends CommandAdapter {
 	}
 
 	@Override
-	public boolean matches(Class<?> c) {
+	public boolean matches(final Class<?> c) {
 		return c.equals(Double.class);
 	}
 }

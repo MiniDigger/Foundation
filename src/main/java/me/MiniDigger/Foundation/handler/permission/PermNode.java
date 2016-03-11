@@ -8,10 +8,10 @@ public class PermNode {
 
 	public static final PermNode PARENT = new PermNode();
 
-	private String name;
-	private PermNode parent;
+	private final String name;
+	private final PermNode parent;
 
-	public PermNode(PermNode parent, String name) {
+	public PermNode(final PermNode parent, final String name) {
 		Validate.notNull(parent);
 		Validate.notBlank(name);
 
@@ -20,8 +20,8 @@ public class PermNode {
 	}
 
 	private PermNode() {
-		this.name = "";
-		this.parent = this;
+		name = "";
+		parent = this;
 	}
 
 	public PermNode getParent() {
@@ -36,6 +36,7 @@ public class PermNode {
 		return this.equals((Object) getParent());
 	}
 
+	@Override
 	public String toString() {
 		if (!isParentNode() && !getParent().isParentNode()) {
 			return getParent().toString() + "." + getName();
@@ -44,16 +45,16 @@ public class PermNode {
 		}
 	}
 
-	public boolean equals(PermNode node) {
+	public boolean equals(final PermNode node) {
 		Validate.notNull(node);
-		return this.toString().equals(node.toString());
+		return toString().equals(node.toString());
 	}
 
 	public boolean isAsterix() {
 		return name.equals("*");
 	}
 
-	public boolean isParentOf(PermNode node) {
+	public boolean isParentOf(final PermNode node) {
 		Validate.notNull(node);
 
 		if (this.equals(node)) {
@@ -61,7 +62,7 @@ public class PermNode {
 		}
 
 		PermNode this2 = this;
-		if(this2.isAsterix()){
+		if (this2.isAsterix()) {
 			this2 = this2.getParent();
 		}
 
@@ -76,10 +77,10 @@ public class PermNode {
 		return false;
 	}
 
-	public static PermNode fromString(String s) throws IllegalArgumentException {
+	public static PermNode fromString(final String s) throws IllegalArgumentException {
 		Validate.notBlank(s);
 
-		String[] nodes = s.split(Pattern.quote("."));
+		final String[] nodes = s.split(Pattern.quote("."));
 
 		if (nodes.length > 0) {
 			PermNode node = new PermNode(PARENT, nodes[0]);

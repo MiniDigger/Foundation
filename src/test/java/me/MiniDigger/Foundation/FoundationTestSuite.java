@@ -18,12 +18,11 @@ import me.MiniDigger.Foundation.handler.permission.PermHolderTest;
 import me.MiniDigger.Foundation.handler.permission.PermNodeTest;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ LangTest.class, ConfigTest.class, ModuleTest.class, CommandTest.class, PermHolderTest.class,
-		PermNodeTest.class })
+@Suite.SuiteClasses({ LangTest.class, ConfigTest.class, ModuleTest.class, CommandTest.class, PermHolderTest.class, PermNodeTest.class })
 public class FoundationTestSuite {
 
-	private static final FoundationHandler[] handler = { LangHandler.getInstance(), ConfigHandler.getInstance(),
-			ModuleHandler.getInstance(), CommandHandler.getInstance() };
+	private static final FoundationHandler[] handler = { LangHandler.getInstance(), ConfigHandler.getInstance(), ModuleHandler.getInstance(),
+			CommandHandler.getInstance() };
 
 	@BeforeClass
 	public static void setup() throws Exception {

@@ -4,9 +4,6 @@ import java.util.List;
 
 import org.bukkit.Location;
 
-import me.MiniDigger.Foundation.handler.config.Config;
-import me.MiniDigger.Foundation.handler.config.Storeable;
-
 public class SampleConfig extends Config {
 
 	@Storeable

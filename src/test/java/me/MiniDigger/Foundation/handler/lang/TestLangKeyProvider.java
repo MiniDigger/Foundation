@@ -9,7 +9,7 @@ public class TestLangKeyProvider extends LangKeyProvider {
 
 	@Override
 	public List<LangKey> values() {
-		List<LangKey> result = new ArrayList<>();
+		final List<LangKey> result = new ArrayList<>();
 		result.add(TEST);
 		return result;
 	}

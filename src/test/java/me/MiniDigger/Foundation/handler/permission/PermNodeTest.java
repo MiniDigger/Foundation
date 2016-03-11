@@ -1,21 +1,22 @@
 package me.MiniDigger.Foundation.handler.permission;
 
-import org.junit.Test;
 import static org.junit.Assert.*;
+
+import org.junit.Test;
 
 public class PermNodeTest {
 
 	@Test
 	public void testFromToString() {
-		String input = "I.am.a.perm.node";
-		PermNode node = PermNode.fromString(input);
+		final String input = "I.am.a.perm.node";
+		final PermNode node = PermNode.fromString(input);
 		assertEquals(input, node.toString());
 	}
 
 	@Test
 	public void testAsterix() {
-		String input = "I.am.a.perm.node.*";
-		PermNode node = PermNode.fromString(input);
+		final String input = "I.am.a.perm.node.*";
+		final PermNode node = PermNode.fromString(input);
 		assertEquals(input, node.toString());
 		assertTrue(node.isAsterix());
 	}
@@ -29,14 +30,14 @@ public class PermNodeTest {
 
 	@Test
 	public void testIsParentOf() {
-		PermNode n1 = PermNode.fromString("parent.child1.child2.child3");
-		PermNode n2 = PermNode.fromString("parent.child1.child2");
-		PermNode n3 = PermNode.fromString("parent.child1");
-		PermNode n4 = PermNode.fromString("parent");
-		PermNode n5 = PermNode.fromString("parent1.child1.child2.child3");
-		PermNode n6 = PermNode.fromString("parent1.child1.child2");
-		PermNode n7 = PermNode.fromString("parent1.child1");
-		PermNode n8 = PermNode.fromString("parent1");
+		final PermNode n1 = PermNode.fromString("parent.child1.child2.child3");
+		final PermNode n2 = PermNode.fromString("parent.child1.child2");
+		final PermNode n3 = PermNode.fromString("parent.child1");
+		final PermNode n4 = PermNode.fromString("parent");
+		final PermNode n5 = PermNode.fromString("parent1.child1.child2.child3");
+		final PermNode n6 = PermNode.fromString("parent1.child1.child2");
+		final PermNode n7 = PermNode.fromString("parent1.child1");
+		final PermNode n8 = PermNode.fromString("parent1");
 
 		assertTrue(n4.isParentOf(n3));
 		assertTrue(n4.isParentOf(n2));

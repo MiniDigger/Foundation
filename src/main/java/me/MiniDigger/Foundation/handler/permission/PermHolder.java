@@ -7,9 +7,9 @@ import org.apache.commons.lang3.Validate;
 
 public class PermHolder {
 
-	private List<PermNode> permNodes = new ArrayList<>();
+	private final List<PermNode> permNodes = new ArrayList<>();
 
-	public boolean has(PermNode node) {
+	public boolean has(final PermNode node) {
 		Validate.notNull(node);
 
 		if (permNodes.contains(node)) {
@@ -32,7 +32,7 @@ public class PermHolder {
 		return false;
 	}
 
-	public void add(PermNode node) {
+	public void add(final PermNode node) {
 		Validate.notNull(node);
 
 		permNodes.add(node);

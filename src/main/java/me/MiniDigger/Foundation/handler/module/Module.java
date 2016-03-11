@@ -24,7 +24,7 @@ public class Module {
 		return description;
 	}
 
-	public void setDescription(ModuleDescription description) {
+	public void setDescription(final ModuleDescription description) {
 		this.description = description;
 	}
 

@@ -1,9 +1,9 @@
 package me.MiniDigger.Foundation.handler.permission;
 
 public class PermGroup extends PermHolder {
-	private String name;
+	private final String name;
 
-	public PermGroup(String name) {
+	public PermGroup(final String name) {
 		this.name = name;
 	}
 

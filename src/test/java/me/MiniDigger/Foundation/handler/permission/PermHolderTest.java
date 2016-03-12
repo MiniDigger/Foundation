@@ -2,9 +2,15 @@ package me.MiniDigger.Foundation.handler.permission;
 
 import static org.junit.Assert.*;
 
-import org.junit.Test;
+import org.junit.*;
 
 public class PermHolderTest {
+	
+	@BeforeClass
+	public static void prepare(){
+		System.out.println("================ PermHolder Test ================");
+	}
+	
 	@Test
 	public void testHas() {
 		final PermHolder holder = new PermHolder();

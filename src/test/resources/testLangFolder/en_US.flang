@@ -11,6 +11,8 @@ foundation.enable=Enableing %0% by MiniDigger
 #  lang #
 #########
 lang.load=Loaded %0% langs
+lang.could_not_load_file=Could not load langfile %0%!
+lang.load_storage=Loaded %0% keys in lang %1%
 ############
 #  command #
 ############
@@ -36,6 +38,10 @@ module.error_abnormal_type=Abnormal plugin type for main class %0%
 #########
 test.test=Just a jUnit test %0%
 test.test_vars=Just %0% a %1% bunch %2% of %3% vars %4%
+###########
+#  config #
+###########
+config.load=Loaded %0% langs
 ########################
 #  testlangkeyprovider #
 ########################

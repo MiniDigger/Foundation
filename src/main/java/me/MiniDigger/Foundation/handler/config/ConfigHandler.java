@@ -23,25 +23,23 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class ConfigHandler extends FoundationHandler {
-
+	
 	private static ConfigHandler INSTANCE;
 	private final List<ConfigAdapter> adapters = new ArrayList<>();
 	private ConfigAdapter defaultAdapter;
-
+	
 	@Override
 	public boolean onLoad() {
 		initAdapter();
 		return true;
 	}
-
+	
 	@Override
 	public boolean onEnable() {
-		// TODO load foundation config
 		return true;
 	}
-
+	
 	private void initAdapter() {
-		System.out.println("init");
 		registerAdapter(new StringConfigAdapter());
 		registerAdapter(new BooleanConfigAdapter());
 		registerAdapter(new BoolConfigAdapter());
@@ -49,19 +47,19 @@ public class ConfigHandler extends FoundationHandler {
 		registerAdapter(new IntConfigAdapter());
 		registerAdapter(new LocationConfigAdapter());
 		registerAdapter(new ListConfigAdapter());
-
+		
 		defaultAdapter = new StringConfigAdapter();
 	}
-
+	
 	public void registerAdapter(final ConfigAdapter adapter) {
 		adapters.add(adapter);
 	}
-
+	
 	public Config loadConfig(final Class<? extends Config> config, final File file) {
 		if (adapters.size() == 0) {
 			initAdapter();
 		}
-
+		
 		Config c;
 		try {
 			c = config.newInstance();
@@ -70,14 +68,14 @@ public class ConfigHandler extends FoundationHandler {
 			return null;
 		}
 		c.setFileName(file.getName());
-
+		
 		final FileConfiguration fc = YamlConfiguration.loadConfiguration(file);
 		try {
 			fc.load(file);
 		} catch (IOException | InvalidConfigurationException e1) {
 			Lang.error(e1);
 		}
-
+		
 		for (final Field f : config.getFields()) {
 			if (f.isAnnotationPresent(Storeable.class)) {
 				final ConfigAdapter a = getAdapter(f.getType());
@@ -109,14 +107,14 @@ public class ConfigHandler extends FoundationHandler {
 		}
 		return c;
 	}
-
+	
 	public void saveConfig(final Config config, final File file) {
 		if (adapters.size() == 0) {
 			initAdapter();
 		}
-
+		
 		final FileConfiguration fc = YamlConfiguration.loadConfiguration(file);
-
+		
 		for (final Field f : config.getClass().getFields()) {
 			if (f.isAnnotationPresent(Storeable.class)) {
 				final ConfigAdapter a = getAdapter(f.getType());
@@ -147,14 +145,14 @@ public class ConfigHandler extends FoundationHandler {
 				}
 			}
 		}
-
+		
 		try {
 			fc.save(file);
 		} catch (final IOException e) {
 			Lang.error(e);
 		}
 	}
-
+	
 	public ConfigAdapter getAdapter(final Class<?> clazz) {
 		for (final ConfigAdapter a : adapters) {
 			if (a.getClazz().equals(clazz)) {
@@ -163,7 +161,7 @@ public class ConfigHandler extends FoundationHandler {
 		}
 		return defaultAdapter;
 	}
-
+	
 	public static ConfigHandler getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new ConfigHandler();

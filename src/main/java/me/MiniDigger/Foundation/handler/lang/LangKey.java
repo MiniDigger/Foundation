@@ -49,6 +49,7 @@ public class LangKey {
 		public static final LangKey COULD_NOT_LOAD_FILE = new LangKey(NAME, "could_not_load_file", "Could not load langfile %0%!");
 		public static final LangKey LOAD = new LangKey(NAME, "load", "Loaded %0% langs");
 		public static final LangKey LOAD_STORAGE = new LangKey(NAME, "load_storage", "Loaded %0% keys in lang %1%");
+		public static final LangKey SAVE_DEFAULT = new LangKey(NAME, "save_default", "Saving default lang to %0%");
 		
 		@Override
 		public List<LangKey> values() {
@@ -57,6 +58,7 @@ public class LangKey {
 			result.add(LOAD);
 			result.add(COULD_NOT_LOAD_FILE);
 			result.add(LOAD_STORAGE);
+			result.add(SAVE_DEFAULT);
 			
 			return result;
 		}
@@ -65,6 +67,7 @@ public class LangKey {
 	public static class Config extends LangKeyProvider {
 		
 		public static final String NAME = "config";
+		// TODO this seems to be a placeholder ^^
 		public static final LangKey LOAD = new LangKey(NAME, "load", "Loaded %0% langs");
 		
 		@Override

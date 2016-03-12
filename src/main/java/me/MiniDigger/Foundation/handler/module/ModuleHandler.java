@@ -62,6 +62,10 @@ public class ModuleHandler extends FoundationHandler {
 			return;
 		}
 		
+		if (!moduleFolder.exists()) {
+			moduleFolder.mkdirs();
+		}
+		
 		for (final File f : moduleFolder.listFiles((dir, name) -> {
 			return name.endsWith(".jar");
 		})) {
